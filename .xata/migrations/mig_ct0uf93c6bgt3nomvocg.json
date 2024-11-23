@@ -1,0 +1,27 @@
+{
+  "done": true,
+  "migration": {
+    "name": "mig_ct0uf93c6bgt3nomvocg",
+    "operations": [
+      {
+        "add_column": {
+          "up": "''",
+          "table": "stock",
+          "column": {
+            "pk": false,
+            "name": "name",
+            "type": "text",
+            "unique": false,
+            "comment": "",
+            "nullable": false
+          }
+        }
+      }
+    ]
+  },
+  "migrationType": "pgroll",
+  "name": "mig_ct0uf93c6bgt3nomvocg",
+  "parent": "mig_ct0uf3nspl6m3joq9rv0",
+  "schema": "public",
+  "startedAt": "2024-11-23T14:33:08.866298Z"
+}

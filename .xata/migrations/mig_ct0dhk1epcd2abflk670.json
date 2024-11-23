@@ -1,0 +1,18 @@
+{
+  "done": true,
+  "migration": {
+    "name": "mig_ct0dhk1epcd2abflk670",
+    "operations": [
+      {
+        "drop_table": {
+          "name": "stock"
+        }
+      }
+    ]
+  },
+  "migrationType": "pgroll",
+  "name": "mig_ct0dhk1epcd2abflk670",
+  "parent": "mig_ct0dh1bc6bgt3nomvk90",
+  "schema": "public",
+  "startedAt": "2024-11-22T19:17:36.928763Z"
+}
