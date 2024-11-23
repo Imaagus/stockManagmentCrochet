@@ -1,5 +1,5 @@
 {
-  "databaseURL": "https://Imanol-s-workspace-i3tp1f.us-east-1.xata.sh/db/stock",
+  "databaseURL": "https://Imanol-s-workspace-i3tp1f.us-east-1.xata.sh/db/stock:main/tables/stock",
   "codegen": {
     "output": "src/xata.ts"
   }

@@ -18,13 +18,10 @@ type InventoryItem = {
 }
 
 
-export function Inventory() {
-  const [items, setItems] = useState<InventoryItem[]>([
-    { id: 1, name: 'Producto 1', quantity: 10, price: 100 },
-    { id: 2, name: 'Producto 2', quantity: 15, price: 200 },
-  ])
+export function Inventory({stock}:{stock:any}) {
+  const [items, setItems] = useState<InventoryItem[]>(stock)
   const [editingItem, setEditingItem] = useState<InventoryItem | null>(null)
-
+  console.log("stock",stock)
   const addItem = (item: Omit<InventoryItem, 'id'>) => {
     const newItem = { ...item, id: Date.now() }
     setItems([...items, newItem])

@@ -4,8 +4,6 @@ import { Input } from './ui/input'
 import { AlertCircle, Minus, Plus } from 'lucide-react'
 import { useState } from 'react'
 import { Alert, AlertDescription, AlertTitle } from './ui/alert'
-import { XataClient } from '@/src/xata'
-import { FC } from 'react';
 
 
 type InventoryItem = {
@@ -22,7 +20,7 @@ type InventoryTableProps = {
   onUpdateQuantity: (id: number, newQuantity: number) => void
 }
 
-export const InventoryTable: FC<InventoryTableProps> = ({ items, onEdit, onDelete, onUpdateQuantity }: InventoryTableProps) =>{
+export function InventoryTable ({ items, onEdit, onDelete, onUpdateQuantity }: InventoryTableProps) {
   const [itemToDelete, setItemToDelete] = useState<InventoryItem | null>(null)
 
   const handleDeleteClick = (item: InventoryItem) => {
