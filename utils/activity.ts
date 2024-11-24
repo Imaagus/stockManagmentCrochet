@@ -27,5 +27,12 @@ export async function createProd(data: { name: string; quantity: number; price: 
       throw new Error('No se pudo eliminar el producto.');  // Lanza un error más claro
     }
   }
-  
-  
+  export async function updateProd(xata_id:string, data: Partial<{ name: string; quantity: number; price: number }>) {
+    try {
+        const stock = await xata.db.stockTable.update(xata_id, data);
+        return stock;
+      } catch (error) {
+        console.error("Error eliminando el producto en la base de datos:", error);
+        throw new Error('No se pudo eliminar el producto.');  // Lanza un error más claro
+      }
+  }

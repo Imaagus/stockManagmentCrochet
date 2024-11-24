@@ -8,7 +8,7 @@ import { useAuth, checkPermission } from '@/lib/utils'
 import { useToast } from '@/hooks/use-toast'
 import { LoginForm } from './login-form'
 import { ModeToggle } from './mode-toggle'
-import { createProd, deleteProd } from '@/utils/activity'
+import { createProd, deleteProd, updateProd } from '@/utils/activity'
 
 
 type InventoryItem = {
@@ -50,13 +50,27 @@ export function Inventory({stock}:{stock:any}) {
   };
   
   
-  const updateItem =  (updatedItem: InventoryItem) => {
-    setItems(items.map(item => item.xata_id === updatedItem.xata_id ? updatedItem : item));
-    setEditingItem(null);
-    toast({
-      title: "Producto actualizado",
-      description: `El producto ${updatedItem.name} ha sido modificado`,
-    });
+  const updateItem = async (updatedItem: InventoryItem) => {
+    try{
+      const item = await updateProd(updatedItem.xata_id, {
+        name: updatedItem.name,
+        quantity: updatedItem.quantity,
+        price: updatedItem.price,
+      });
+
+      setItems((prevItems) =>
+        prevItems.map((item) =>
+          item.xata_id === updatedItem.xata_id ? { ...item, ...updatedItem } : item
+        )
+      );
+      toast({
+        title: "Producto actualizado",
+        description: `El producto ${updatedItem.name} ha sido modificado.`,
+      });
+      setEditingItem(null);
+    }catch{
+      console.log("error")
+    }
   };
   
   const deleteItem = async (id: string) => {  
@@ -72,15 +86,25 @@ export function Inventory({stock}:{stock:any}) {
     });
   };
   
-  
-  const updateQuantity = (id: string, newQuantity: number) => {
-    setItems(items.map(item => 
-      item.xata_id === id ? { ...item, quantity: Math.max(0, newQuantity) } : item
-    ))
-    toast({
-      title:"Se ha actualizado la cantidad del producto"
-    })
-  }
+  const updateQuantity = async (xata_id: string, newQuantity: number) => {
+    try {
+      await updateProd(xata_id, { quantity: Math.max(0, newQuantity) });
+      setItems((prevItems) =>
+        prevItems.map((item) =>
+          item.xata_id === xata_id
+            ? { ...item, quantity: Math.max(0, newQuantity) }
+            : item
+        )
+      );
+    } catch (error) {
+      console.error("Error al actualizar la cantidad:", error);
+      toast({
+        title: "Error",
+        description: "No se pudo actualizar la cantidad. Intenta nuevamente.",
+        variant: "destructive",
+      });
+    }
+  };
   
   
   return (
