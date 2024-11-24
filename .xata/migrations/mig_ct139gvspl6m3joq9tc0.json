@@ -1,0 +1,26 @@
+{
+  "done": true,
+  "migration": {
+    "name": "mig_ct139gvspl6m3joq9tc0",
+    "operations": [
+      {
+        "add_column": {
+          "table": "stockTable",
+          "column": {
+            "pk": false,
+            "name": "price",
+            "type": "int",
+            "unique": false,
+            "comment": "",
+            "nullable": true
+          }
+        }
+      }
+    ]
+  },
+  "migrationType": "pgroll",
+  "name": "mig_ct139gvspl6m3joq9tc0",
+  "parent": "mig_ct139a3c6bgt3nomvp9g",
+  "schema": "public",
+  "startedAt": "2024-11-23T20:02:12.682247Z"
+}

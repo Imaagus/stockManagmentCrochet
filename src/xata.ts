@@ -91,6 +91,82 @@ const tables = [
       },
     ],
   },
+  {
+    name: "stockTable",
+    checkConstraints: {
+      stockTable_xata_id_length_xata_id: {
+        name: "stockTable_xata_id_length_xata_id",
+        columns: ["xata_id"],
+        definition: "CHECK ((length(xata_id) < 256))",
+      },
+    },
+    foreignKeys: {},
+    primaryKey: [],
+    uniqueConstraints: {
+      _pgroll_new_stockTable_xata_id_key: {
+        name: "_pgroll_new_stockTable_xata_id_key",
+        columns: ["xata_id"],
+      },
+    },
+    columns: [
+      {
+        name: "name",
+        type: "text",
+        notNull: false,
+        unique: false,
+        defaultValue: null,
+        comment: "",
+      },
+      {
+        name: "price",
+        type: "int",
+        notNull: false,
+        unique: false,
+        defaultValue: null,
+        comment: "",
+      },
+      {
+        name: "quantity",
+        type: "int",
+        notNull: false,
+        unique: false,
+        defaultValue: null,
+        comment: "",
+      },
+      {
+        name: "xata_createdat",
+        type: "datetime",
+        notNull: true,
+        unique: false,
+        defaultValue: "now()",
+        comment: "",
+      },
+      {
+        name: "xata_id",
+        type: "text",
+        notNull: true,
+        unique: true,
+        defaultValue: "('rec_'::text || (xata_private.xid())::text)",
+        comment: "",
+      },
+      {
+        name: "xata_updatedat",
+        type: "datetime",
+        notNull: true,
+        unique: false,
+        defaultValue: "now()",
+        comment: "",
+      },
+      {
+        name: "xata_version",
+        type: "int",
+        notNull: true,
+        unique: false,
+        defaultValue: "0",
+        comment: "",
+      },
+    ],
+  },
 ] as const;
 
 export type SchemaTables = typeof tables;
@@ -99,14 +175,21 @@ export type InferredTypes = SchemaInference<SchemaTables>;
 export type Stock = InferredTypes["stock"];
 export type StockRecord = Stock & XataRecord;
 
+export type StockTable = InferredTypes["stockTable"];
+export type StockTableRecord = StockTable & XataRecord;
+
 export type DatabaseSchema = {
   stock: StockRecord;
+  stockTable: StockTableRecord;
 };
+console.log("XATA_API_KEY:", process.env.XATA_API_KEY);
 
 const DatabaseClient = buildClient();
 
 const defaultOptions = {
   databaseURL: "https://Imanol-s-workspace-i3tp1f.us-east-1.xata.sh/db/stock",
+  apiKey: process.env.XATA_API_KEY,
+  branch: "main", 
 };
 
 export class XataClient extends DatabaseClient<DatabaseSchema> {

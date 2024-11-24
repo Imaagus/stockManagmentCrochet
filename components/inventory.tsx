@@ -21,7 +21,10 @@ type InventoryItem = {
 export function Inventory({stock}:{stock:any}) {
   const [items, setItems] = useState<InventoryItem[]>(stock)
   const [editingItem, setEditingItem] = useState<InventoryItem | null>(null)
-  console.log("stock",stock)
+  const { toast } = useToast()
+  const { user, login, logout } = useAuth()
+  console.log(stock)
+
   const addItem = (item: Omit<InventoryItem, 'id'>) => {
     const newItem = { ...item, id: Date.now() }
     setItems([...items, newItem])
@@ -56,8 +59,7 @@ export function Inventory({stock}:{stock:any}) {
       title:"Se ha actualizado la cantidad del producto"
     })
   }
-  const { toast } = useToast()
-  const { user, login, logout } = useAuth()
+  
   
   return (
     <div className="min-h-screen bg-background text-foreground">
