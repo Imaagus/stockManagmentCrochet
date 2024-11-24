@@ -6,7 +6,7 @@ export default async function InventoryPage() {
   const stock = await getStock()
   console.log(stock)
   return (
-    <div className="container mx-auto p-4">
+    <div>
       <Inventory stock={stock}/>
     </div>
   )

@@ -42,7 +42,7 @@ export function InventoryTable ({ items, onEdit, onDelete, onUpdateQuantity }: I
   }
 
   return (
-    <div>
+    <div className="border border-zinc-300 rounded-md">
       
     <Table>
       <TableHeader>

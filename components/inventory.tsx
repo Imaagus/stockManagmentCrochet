@@ -109,8 +109,9 @@ export function Inventory({stock}:{stock:any}) {
   
   return (
     <div className="min-h-screen bg-background text-foreground">
-       <header className="border-b">
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+       <header>
+        <nav className="w-full h-24 border-b bg-zinc-100 dark:bg-zinc-900">
+        <div  className="container mx-auto px-4 pt-8 flex justify-between items-center">
           <h1 className="text-2xl font-bold">Sistema de Gestión de Inventario</h1>
           <div className="flex items-center gap-4">
             <ModeToggle/>
@@ -122,6 +123,7 @@ export function Inventory({stock}:{stock:any}) {
             {user && <Button onClick={logout}>Cerrar sesión</Button>}
           </div>
         </div>
+        </nav>
       </header>
       <main className="container mx-auto p-4">
       {!user? (
