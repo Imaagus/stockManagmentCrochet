@@ -8,13 +8,14 @@ import { useAuth, checkPermission } from '@/lib/utils'
 import { useToast } from '@/hooks/use-toast'
 import { LoginForm } from './login-form'
 import { ModeToggle } from './mode-toggle'
+import { createProd, deleteProd } from '@/utils/activity'
 
 
 type InventoryItem = {
-  id: number
   name: string
   quantity: number
   price: number
+  xata_id: string
 }
 
 
@@ -23,37 +24,58 @@ export function Inventory({stock}:{stock:any}) {
   const [editingItem, setEditingItem] = useState<InventoryItem | null>(null)
   const { toast } = useToast()
   const { user, login, logout } = useAuth()
-  console.log(stock)
 
-  const addItem = (item: Omit<InventoryItem, 'id'>) => {
-    const newItem = { ...item, id: Date.now() }
-    setItems([...items, newItem])
+  const addItem = async (item: Omit<InventoryItem, 'xata_id'>) => {
+    try {
+      const newProduct = await createProd(item);
+
+       const newItem: InventoryItem = {
+        ...item,
+        xata_id: newProduct.xata_id,
+      };
+
+      setItems((prevItems) => [...prevItems, newItem]);
+      toast({
+        title: "Producto agregado",
+        description: `El producto ${newProduct.name} ha sido agregado al inventario.`,
+      });
+    } catch (error) {
+      console.error("Error al agregar producto:", error);
+      toast({
+        title: "Error",
+        description: "No se pudo agregar el producto. Intenta nuevamente.",
+        variant: "destructive",
+      });
+    }
+  };
+  
+  
+  const updateItem =  (updatedItem: InventoryItem) => {
+    setItems(items.map(item => item.xata_id === updatedItem.xata_id ? updatedItem : item));
+    setEditingItem(null);
     toast({
-      title:"Producto agregado",
-      description:`El producto ${newItem.name} ha sido agregado al inventario`,
-    })
-  }
-
-  const updateItem = (updatedItem: InventoryItem) => {
-    setItems(items.map(item => item.id === updatedItem.id ? updatedItem : item))
-    setEditingItem(null)
+      title: "Producto actualizado",
+      description: `El producto ${updatedItem.name} ha sido modificado`,
+    });
+  };
+  
+  const deleteItem = async (id: string) => {  
+    try{
+      await deleteProd(id)
+    }catch{
+      console.log("error")
+    }
+    setItems(items.filter(item => item.xata_id != id)); 
     toast({
-      title:"Producto actualizado",
-      description:`El producto ${updatedItem.name} ha sido modificado`
-    })
-  }
-
-  const deleteItem = (id: number) => {
-    setItems(items.filter(item => item.id !== id))
-    toast({
-      title:"Producto Eliminado",
-      description:`El producto ha sido eliminado`
-    })
-  }
-
-  const updateQuantity = (id: number, newQuantity: number) => {
+      title: "Producto Eliminado",
+      description: "El producto ha sido eliminado",
+    });
+  };
+  
+  
+  const updateQuantity = (id: string, newQuantity: number) => {
     setItems(items.map(item => 
-      item.id === id ? { ...item, quantity: Math.max(0, newQuantity) } : item
+      item.xata_id === id ? { ...item, quantity: Math.max(0, newQuantity) } : item
     ))
     toast({
       title:"Se ha actualizado la cantidad del producto"
@@ -93,12 +115,12 @@ export function Inventory({stock}:{stock:any}) {
           <h2 className="text-xl font-semibold mb-2">
             {editingItem ? 'Editar Producto' : 'Agregar Nuevo Producto'}
           </h2>
-          <InventoryForm 
+          <InventoryForm
           onSubmit={(item) => {
             if (editingItem) {
-              updateItem({ ...item, id: editingItem.id });
+              updateItem({ ...item, xata_id: editingItem.xata_id });
             } else {
-              addItem(item);
+              addItem(item); 
             }
           }}
           initialData={editingItem}

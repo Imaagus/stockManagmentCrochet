@@ -7,30 +7,33 @@ import { Alert, AlertDescription, AlertTitle } from './ui/alert'
 
 
 type InventoryItem = {
-  id: number
   name: string
   quantity: number
   price: number
+  xata_id: string
 }
 
 type InventoryTableProps = {
   items: InventoryItem[]
   onEdit: (item: InventoryItem) => void
-  onDelete: (id: number) => void
-  onUpdateQuantity: (id: number, newQuantity: number) => void
+  onDelete: ( xata_id: string) => void
+  onUpdateQuantity: (xata_id: string, newQuantity: number) => void
 }
 
 export function InventoryTable ({ items, onEdit, onDelete, onUpdateQuantity }: InventoryTableProps) {
   const [itemToDelete, setItemToDelete] = useState<InventoryItem | null>(null)
 
   const handleDeleteClick = (item: InventoryItem) => {
+    console.log('Item to delete:', item); 
     setItemToDelete(item) 
   }
 
   const confirmDelete = () => {
     if (itemToDelete) {
-      onDelete(itemToDelete.id) 
-      setItemToDelete(null) 
+      onDelete(itemToDelete.xata_id); 
+      setItemToDelete(null);
+    } else {
+      console.log('No item to delete');
     }
   }
 
@@ -52,7 +55,7 @@ export function InventoryTable ({ items, onEdit, onDelete, onUpdateQuantity }: I
       </TableHeader>
       <TableBody>
         {items.map(item => (
-          <TableRow key={item.id}>
+          <TableRow key={item.xata_id}>
             <TableCell>{item.name}</TableCell>
             <TableCell>{item.quantity}</TableCell>
             <TableCell>${item.price.toFixed(2)}</TableCell>
@@ -61,20 +64,20 @@ export function InventoryTable ({ items, onEdit, onDelete, onUpdateQuantity }: I
               <Button 
                   size="icon" 
                   variant="outline" 
-                  onClick={() => onUpdateQuantity(item.id, item.quantity - 1)}
+                  onClick={() => onUpdateQuantity(item.xata_id, item.quantity - 1)}
                 >
                   <Minus className="h-4 w-4" />
                 </Button>
                 <Input
                   type="number"
                   value={item.quantity}
-                  onChange={(e) => onUpdateQuantity(item.id, parseInt(e.target.value) || 0)}
+                  onChange={(e) => onUpdateQuantity(item.xata_id, parseInt(e.target.value) || 0)}
                   className="w-16 mx-2"
                 />
                 <Button 
                   size="icon" 
                   variant="outline" 
-                  onClick={() => onUpdateQuantity(item.id, item.quantity + 1)}
+                  onClick={() => onUpdateQuantity(item.xata_id, item.quantity + 1)}
                 >
                   <Plus className="h-4 w-4" />
                 </Button>

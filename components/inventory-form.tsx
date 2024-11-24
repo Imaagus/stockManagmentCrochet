@@ -6,21 +6,22 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
 type InventoryItem = {
-  id: number
   name: string
   quantity: number
   price: number
+  xata_id: string
 }
 
 type InventoryFormProps = {
-  onSubmit: (item: Omit<InventoryItem, 'id'>) => void
-  initialData?: InventoryItem | null
+  onSubmit: (item: Omit<InventoryItem , 'xata_id'>) => void
+  initialData?: InventoryItem | null 
 }
 
 export function InventoryForm({ onSubmit, initialData }: InventoryFormProps) {
   const [name, setName] = useState('')
   const [quantity, setQuantity] = useState('')
   const [price, setPrice] = useState('')
+
 
   useEffect(() => {
     if (initialData) {
