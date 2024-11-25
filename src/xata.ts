@@ -187,7 +187,7 @@ const DatabaseClient = buildClient();
 
 const defaultOptions = {
   databaseURL: "https://Imanol-s-workspace-i3tp1f.us-east-1.xata.sh/db/stock",
-  apiKey: process.env.XATA_API_KEY, // Clave API desde el entorno
+  apiKey: process.env.XATA_API_KEY, 
   branch: "main",
 };
 

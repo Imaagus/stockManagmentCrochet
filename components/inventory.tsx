@@ -12,10 +12,11 @@ import { createProd, deleteProd, updateProd } from '@/utils/activity'
 
 
 type InventoryItem = {
+  xata_id: string
   name: string
   quantity: number
   price: number
-  xata_id: string
+  category: string
 }
 
 
@@ -56,6 +57,7 @@ export function Inventory({stock}:{stock:any}) {
         name: updatedItem.name,
         quantity: updatedItem.quantity,
         price: updatedItem.price,
+        category: updatedItem.category,
       });
 
       setItems((prevItems) =>
@@ -130,6 +132,7 @@ export function Inventory({stock}:{stock:any}) {
         <LoginForm onLogin={login}/>
       ): 
       <section>
+      <h2 className="text-center text-2xl font-bold p-4">Inventario actual</h2>
       <InventoryTable 
         items={items} 
         onEdit={setEditingItem} 
@@ -152,15 +155,19 @@ export function Inventory({stock}:{stock:any}) {
           initialData={editingItem}
         />
         </div>
-        {editingItem && (
-          <Button 
-            className="mt-2" 
-            variant="outline" 
-            onClick={() => setEditingItem(null)}
-          >
-            Cancelar Edición
-          </Button>
-        )}
+        <div className="justify-items-center">
+          <div>
+            {editingItem && (
+              <Button 
+                className="mt-2" 
+                variant="outline" 
+                onClick={() => setEditingItem(null)}
+              >
+                Cancelar Edición
+              </Button>
+            )}
+          </div>
+        </div>
         </section>
       </section>
       }

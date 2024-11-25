@@ -7,10 +7,11 @@ import { Alert, AlertDescription, AlertTitle } from './ui/alert'
 
 
 type InventoryItem = {
+  xata_id: string
   name: string
   quantity: number
   price: number
-  xata_id: string
+  category: string
 }
 
 type InventoryTableProps = {
@@ -50,6 +51,7 @@ export function InventoryTable ({ items, onEdit, onDelete, onUpdateQuantity }: I
           <TableHead>Nombre</TableHead>
           <TableHead>Cantidad</TableHead>
           <TableHead>Precio</TableHead>
+          <TableHead>Categoria</TableHead>
           <TableHead className="text-center">Acciones</TableHead>
         </TableRow>
       </TableHeader>
@@ -59,6 +61,7 @@ export function InventoryTable ({ items, onEdit, onDelete, onUpdateQuantity }: I
             <TableCell>{item.name}</TableCell>
             <TableCell>{item.quantity}</TableCell>
             <TableCell>${item.price.toFixed(2)}</TableCell>
+            <TableCell>{item.category}</TableCell>
             <TableCell className="flex justify-evenly">
             <div className="flex pl-12">
               <Button 

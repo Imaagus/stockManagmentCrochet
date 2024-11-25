@@ -9,7 +9,7 @@ export async function getStock (){
     return stock
 }
 
-export async function createProd(data: { name: string; quantity: number; price: number }) {
+export async function createProd(data: { name: string; quantity: number; price: number ; category: string}) {
     try {
       const stock = await xata.db.stockTable.create(data);
       return stock;
@@ -27,7 +27,7 @@ export async function createProd(data: { name: string; quantity: number; price: 
       throw new Error('No se pudo eliminar el producto.');  // Lanza un error más claro
     }
   }
-  export async function updateProd(xata_id:string, data: Partial<{ name: string; quantity: number; price: number }>) {
+  export async function updateProd(xata_id:string, data: Partial<{ name: string; quantity: number; price: number ; category: string }>) {
     try {
         const stock = await xata.db.stockTable.update(xata_id, data);
         return stock;
