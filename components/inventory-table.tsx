@@ -4,6 +4,8 @@ import { Input } from './ui/input'
 import { AlertCircle, Minus, Plus } from 'lucide-react'
 import { useState } from 'react'
 import { Alert, AlertDescription, AlertTitle } from './ui/alert'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select'
+
 
 
 type InventoryItem = {
@@ -23,11 +25,23 @@ type InventoryTableProps = {
 
 export function InventoryTable ({ items, onEdit, onDelete, onUpdateQuantity }: InventoryTableProps) {
   const [itemToDelete, setItemToDelete] = useState<InventoryItem | null>(null)
+  const [search, setSearch] = useState('')
+  const [categoryFilter, setCategoryFilter] = useState('all')
 
   const handleDeleteClick = (item: InventoryItem) => {
     console.log('Item to delete:', item); 
     setItemToDelete(item) 
   }
+  
+
+  const uniqueCategories = Array.from(new Set(items.map(item => item.category)))
+
+  const filteredProducts = items.filter(product =>
+    product.name.toLowerCase().includes(search.toLowerCase()) &&
+    (categoryFilter === 'all' || product.category === categoryFilter)
+  )
+
+
 
   const confirmDelete = () => {
     if (itemToDelete) {
@@ -44,7 +58,25 @@ export function InventoryTable ({ items, onEdit, onDelete, onUpdateQuantity }: I
 
   return (
     <div className="border border-zinc-300 rounded-md">
-      
+    <div className="mb-4 flex space-x-2">
+        <Input
+          placeholder="Buscar productos..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="max-w-sm"
+        />
+        <Select value={categoryFilter} onValueChange={setCategoryFilter}>
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Filtrar por categoría" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">Todas las categorías</SelectItem>
+            {uniqueCategories.map((category) => (
+            <SelectItem key={category} value={category}>{category}</SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
     <Table>
       <TableHeader>
         <TableRow>
@@ -56,7 +88,7 @@ export function InventoryTable ({ items, onEdit, onDelete, onUpdateQuantity }: I
         </TableRow>
       </TableHeader>
       <TableBody>
-        {items.map(item => (
+        {filteredProducts.map(item => (
           <TableRow key={item.xata_id}>
             <TableCell>{item.name}</TableCell>
             <TableCell>{item.quantity}</TableCell>
@@ -99,7 +131,7 @@ export function InventoryTable ({ items, onEdit, onDelete, onUpdateQuantity }: I
       </TableBody>
     </Table>
      {itemToDelete && (
-      <Alert variant="destructive" className="mt-4 ">
+      <Alert variant="destructive" className="mt-4">
         <div className="flex h-24 justify-between items-center">
           <AlertCircle className="h-8 w-8" />
           <div className="text-center">

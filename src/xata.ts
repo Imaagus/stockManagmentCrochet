@@ -26,6 +26,14 @@ const tables = [
     },
     columns: [
       {
+        name: "category",
+        type: "text",
+        notNull: false,
+        unique: false,
+        defaultValue: null,
+        comment: "",
+      },
+      {
         name: "idProd",
         type: "int",
         notNull: true,
@@ -109,6 +117,14 @@ const tables = [
       },
     },
     columns: [
+      {
+        name: "category",
+        type: "text",
+        notNull: false,
+        unique: false,
+        defaultValue: null,
+        comment: "",
+      },
       {
         name: "name",
         type: "text",

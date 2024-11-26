@@ -9,6 +9,7 @@ import { useToast } from '@/hooks/use-toast'
 import { LoginForm } from './login-form'
 import { ModeToggle } from './mode-toggle'
 import { createProd, deleteProd, updateProd } from '@/utils/activity'
+import { LowStockAlert } from './low-stock'
 
 
 type InventoryItem = {
@@ -23,8 +24,17 @@ type InventoryItem = {
 export function Inventory({stock}:{stock:any}) {
   const [items, setItems] = useState<InventoryItem[]>(stock)
   const [editingItem, setEditingItem] = useState<InventoryItem | null>(null)
+  const [showForm, setShowForm] = useState(false);
   const { toast } = useToast()
   const { user, login, logout } = useAuth()
+
+  const handleShowForm = () => setShowForm(true);
+  const handleHideForm = () => {
+    setShowForm(false);
+    setEditingItem(null); 
+  };
+
+
 
   const addItem = async (item: Omit<InventoryItem, 'xata_id'>) => {
     try {
@@ -133,41 +143,62 @@ export function Inventory({stock}:{stock:any}) {
       ): 
       <section>
       <h2 className="text-center text-2xl font-bold p-4">Inventario actual</h2>
+      <LowStockAlert products={items} threshold={5}/>
       <InventoryTable 
         items={items} 
-        onEdit={setEditingItem} 
+        onEdit={items => {
+          setEditingItem(items)
+          setShowForm(true)
+        }}
         onDelete={deleteItem} 
         onUpdateQuantity={updateQuantity}
       />
         <section>
-          <div className="mt-4">
-          <h2 className="text-xl font-semibold mb-2">
-            {editingItem ? 'Editar Producto' : 'Agregar Nuevo Producto'}
-          </h2>
-          <InventoryForm
-          onSubmit={(item) => {
-            if (editingItem) {
-              updateItem({ ...item, xata_id: editingItem.xata_id });
-            } else {
-              addItem(item); 
-            }
-          }}
-          initialData={editingItem}
-        />
-        </div>
         <div className="justify-items-center">
           <div>
-            {editingItem && (
-              <Button 
-                className="mt-2" 
-                variant="outline" 
-                onClick={() => setEditingItem(null)}
-              >
-                Cancelar Edición
-              </Button>
-            )}
+          {!showForm && (
+                <Button
+                  className="mt-4 justify-center"
+                  variant="default"
+                  onClick={() => {
+                    setEditingItem(null) 
+                    setShowForm(true) 
+                  }}
+                >
+                  Agregar Nuevo Producto
+                </Button>
+              )}
           </div>
         </div>
+            {showForm && (
+              <div className="mt-4">
+                <h2 className="text-xl font-semibold mb-2">
+                  {editingItem ? 'Editar Producto' : 'Agregar Nuevo Producto'}
+                </h2>
+                <InventoryForm
+                  onSubmit={(item) => {
+                    if (editingItem) {
+                      updateItem({ ...item, xata_id: editingItem.xata_id })
+                    } else {
+                      addItem(item)
+                    }
+                    handleHideForm()
+                  }}
+                  initialData={editingItem}
+                />
+                <div className="justify-items-center">
+                 <div>
+                  <Button
+                    className="mt-2"
+                    variant="outline"
+                    onClick={handleHideForm}
+                  >
+                    Cancelar
+                  </Button>
+                 </div>
+                </div>
+              </div>
+            )}
         </section>
       </section>
       }

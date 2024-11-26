@@ -1,0 +1,26 @@
+{
+  "done": true,
+  "migration": {
+    "name": "mig_ct2b8kth2217orpla6lg",
+    "operations": [
+      {
+        "add_column": {
+          "table": "stockTable",
+          "column": {
+            "pk": false,
+            "name": "category",
+            "type": "text",
+            "unique": false,
+            "comment": "",
+            "nullable": true
+          }
+        }
+      }
+    ]
+  },
+  "migrationType": "pgroll",
+  "name": "mig_ct2b8kth2217orpla6lg",
+  "parent": "mig_ct2b87lc21vap51eitg0",
+  "schema": "public",
+  "startedAt": "2024-11-25T17:31:00.397514Z"
+}
