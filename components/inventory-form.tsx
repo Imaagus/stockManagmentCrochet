@@ -5,8 +5,6 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Select,SelectContent,SelectItem,SelectTrigger,SelectValue } from "@/components/ui/select"
-import { Toast } from './ui/toast'
-import { title } from 'process'
 import { toast } from '@/hooks/use-toast'
 
 type InventoryItem = {
@@ -34,6 +32,7 @@ export function InventoryForm({ onSubmit, initialData }: InventoryFormProps) {
       setName(initialData.name)
       setQuantity(initialData.quantity.toString())
       setPrice(initialData.price.toString())
+      setCategory(initialData.category)
     }
   }, [initialData])
 
@@ -94,7 +93,7 @@ export function InventoryForm({ onSubmit, initialData }: InventoryFormProps) {
         </div>
         <div className="w-full p-4">
         <Label htmlFor="category">Categoria</Label>
-        <Select value={category} onValueChange={setCategory} required={true}>
+        <Select value={category} onValueChange={setCategory}>
           <SelectTrigger  className="w-full">
             <SelectValue  />
           </SelectTrigger>

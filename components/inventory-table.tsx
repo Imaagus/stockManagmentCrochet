@@ -27,22 +27,11 @@ export function InventoryTable ({ items, onEdit, onDelete, onUpdateQuantity }: I
   const [itemToDelete, setItemToDelete] = useState<InventoryItem | null>(null)
   const [search, setSearch] = useState('')
   const [categoryFilter, setCategoryFilter] = useState('all')
-
+  
   const handleDeleteClick = (item: InventoryItem) => {
     console.log('Item to delete:', item); 
     setItemToDelete(item) 
   }
-  
-
-  const uniqueCategories = Array.from(new Set(items.map(item => item.category)))
-
-  const filteredProducts = items.filter(product =>
-    product.name.toLowerCase().includes(search.toLowerCase()) &&
-    (categoryFilter === 'all' || product.category === categoryFilter)
-  )
-
-
-
   const confirmDelete = () => {
     if (itemToDelete) {
       onDelete(itemToDelete.xata_id); 
@@ -51,13 +40,18 @@ export function InventoryTable ({ items, onEdit, onDelete, onUpdateQuantity }: I
       console.log('No item to delete');
     }
   }
-
   const cancelDelete = () => {
     setItemToDelete(null) 
   }
 
+  const uniqueCategories = Array.from(new Set(items.map(item => item.category)))
+  const filteredProducts = items.filter(product =>
+    product.name.toLowerCase().includes(search.toLowerCase()) &&
+    (categoryFilter === 'all' || product.category === categoryFilter)
+  )
+
   return (
-    <div className="border border-zinc-300 rounded-md">
+    <div>
     <div className="mb-4 flex space-x-2">
         <Input
           placeholder="Buscar productos..."
@@ -76,7 +70,7 @@ export function InventoryTable ({ items, onEdit, onDelete, onUpdateQuantity }: I
             ))}
           </SelectContent>
         </Select>
-      </div>
+    </div>
     <Table>
       <TableHeader>
         <TableRow>
@@ -95,28 +89,6 @@ export function InventoryTable ({ items, onEdit, onDelete, onUpdateQuantity }: I
             <TableCell>${item.price.toFixed(2)}</TableCell>
             <TableCell>{item.category}</TableCell>
             <TableCell className="flex justify-evenly">
-            <div className="flex pl-12">
-              <Button 
-                  size="icon" 
-                  variant="outline" 
-                  onClick={() => onUpdateQuantity(item.xata_id, item.quantity - 1)}
-                >
-                  <Minus className="h-4 w-4" />
-                </Button>
-                <Input
-                  type="number"
-                  value={item.quantity}
-                  onChange={(e) => onUpdateQuantity(item.xata_id, parseInt(e.target.value) || 0)}
-                  className="w-16 mx-2"
-                />
-                <Button 
-                  size="icon" 
-                  variant="outline" 
-                  onClick={() => onUpdateQuantity(item.xata_id, item.quantity + 1)}
-                >
-                  <Plus className="h-4 w-4" />
-                </Button>
-              </div>
               <div className="flex">
               <Button variant="outline" size="sm" className="mr-2" onClick={() => onEdit(item)}>
                 Editar

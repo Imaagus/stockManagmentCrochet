@@ -10,6 +10,7 @@ import { LoginForm } from './login-form'
 import { ModeToggle } from './mode-toggle'
 import { createProd, deleteProd, updateProd } from '@/utils/activity'
 import { LowStockAlert } from './low-stock'
+import { SalesTable } from './sales-table'
 
 
 type InventoryItem = {
@@ -199,6 +200,11 @@ export function Inventory({stock}:{stock:any}) {
                 </div>
               </div>
             )}
+        </section>
+        <section>
+          <SalesTable
+          items={items} 
+          onUpdateQuantity={updateQuantity}/>
         </section>
       </section>
       }
