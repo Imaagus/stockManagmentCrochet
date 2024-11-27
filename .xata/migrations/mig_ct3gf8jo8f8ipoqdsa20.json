@@ -1,0 +1,26 @@
+{
+  "done": true,
+  "migration": {
+    "name": "mig_ct3gf8jo8f8ipoqdsa20",
+    "operations": [
+      {
+        "add_column": {
+          "table": "categoryTable",
+          "column": {
+            "pk": false,
+            "name": "name",
+            "type": "text",
+            "unique": false,
+            "comment": "",
+            "nullable": true
+          }
+        }
+      }
+    ]
+  },
+  "migrationType": "pgroll",
+  "name": "mig_ct3gf8jo8f8ipoqdsa20",
+  "parent": "mig_ct3gf31pprgvq17hk2k0",
+  "schema": "public",
+  "startedAt": "2024-11-27T11:50:59.114174Z"
+}

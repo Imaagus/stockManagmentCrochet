@@ -1,5 +1,5 @@
 import { Inventory } from "@/components/inventory"
-import { getStock } from "@/utils/activity"
+import { getCategories, getStock } from "@/utils/activity"
 
 
 export default async function InventoryPage() {
@@ -7,7 +7,7 @@ export default async function InventoryPage() {
   console.log(stock)
   return (
     <div>
-      <Inventory stock={stock}/>
+      <Inventory stock={stock} />
     </div>
   )
 }

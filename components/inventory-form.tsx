@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Select,SelectContent,SelectItem,SelectTrigger,SelectValue } from "@/components/ui/select"
 import { toast } from '@/hooks/use-toast'
+import { getCategories } from '@/utils/activity'
 
 type InventoryItem = {
   xata_id: string
@@ -58,6 +59,14 @@ export function InventoryForm({ onSubmit, initialData }: InventoryFormProps) {
     setCategory('')
   }
 
+  const categoryes = async () => {
+    try{
+      const category = await getCategories()
+    }catch{
+      console.log("error")
+    }
+  }
+  
   return (
     <form onSubmit={handleSubmit} className="space-y-4 flex-col  ">
       <div className="flex justify-center">
@@ -94,6 +103,7 @@ export function InventoryForm({ onSubmit, initialData }: InventoryFormProps) {
         <div className="w-full p-4">
         <Label htmlFor="category">Categoria</Label>
         <Select value={category} onValueChange={setCategory}>
+        
           <SelectTrigger  className="w-full">
             <SelectValue  />
           </SelectTrigger>
@@ -104,6 +114,7 @@ export function InventoryForm({ onSubmit, initialData }: InventoryFormProps) {
             <SelectItem value="Moto Deportiva">Moto Deportiva</SelectItem>
             <SelectItem value="Scooter">Scooter</SelectItem>
           </SelectContent>
+
         </Select>
         </div>
       </div>

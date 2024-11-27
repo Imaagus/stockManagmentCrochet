@@ -8,10 +8,10 @@ import type {
 
 const tables = [
   {
-    name: "stock",
+    name: "categoryTable",
     checkConstraints: {
-      stock_xata_id_length_xata_id: {
-        name: "stock_xata_id_length_xata_id",
+      categoryTable_xata_id_length_xata_id: {
+        name: "categoryTable_xata_id_length_xata_id",
         columns: ["xata_id"],
         definition: "CHECK ((length(xata_id) < 256))",
       },
@@ -19,48 +19,16 @@ const tables = [
     foreignKeys: {},
     primaryKey: [],
     uniqueConstraints: {
-      _pgroll_new_stock_xata_id_key: {
-        name: "_pgroll_new_stock_xata_id_key",
+      _pgroll_new_categoryTable_xata_id_key: {
+        name: "_pgroll_new_categoryTable_xata_id_key",
         columns: ["xata_id"],
       },
     },
     columns: [
       {
-        name: "category",
-        type: "text",
-        notNull: false,
-        unique: false,
-        defaultValue: null,
-        comment: "",
-      },
-      {
-        name: "idProd",
-        type: "int",
-        notNull: true,
-        unique: false,
-        defaultValue: null,
-        comment: "",
-      },
-      {
         name: "name",
         type: "text",
-        notNull: true,
-        unique: false,
-        defaultValue: null,
-        comment: "",
-      },
-      {
-        name: "price",
-        type: "int",
-        notNull: true,
-        unique: false,
-        defaultValue: null,
-        comment: "",
-      },
-      {
-        name: "quantity",
-        type: "int",
-        notNull: true,
+        notNull: false,
         unique: false,
         defaultValue: null,
         comment: "",
@@ -188,14 +156,14 @@ const tables = [
 export type SchemaTables = typeof tables;
 export type InferredTypes = SchemaInference<SchemaTables>;
 
-export type Stock = InferredTypes["stock"];
-export type StockRecord = Stock & XataRecord;
+export type CategoryTable = InferredTypes["categoryTable"];
+export type CategoryTableRecord = CategoryTable & XataRecord;
 
 export type StockTable = InferredTypes["stockTable"];
 export type StockTableRecord = StockTable & XataRecord;
 
 export type DatabaseSchema = {
-  stock: StockRecord;
+  categoryTable: CategoryTableRecord;
   stockTable: StockTableRecord;
 };
 
@@ -206,6 +174,7 @@ const defaultOptions = {
   apiKey: process.env.XATA_API_KEY, 
   branch: "main",
 };
+
 
 export class XataClient extends DatabaseClient<DatabaseSchema> {
   constructor(options?: BaseClientOptions) {

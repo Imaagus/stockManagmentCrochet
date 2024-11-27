@@ -2,6 +2,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { useState } from 'react'
 import { toast } from '@/hooks/use-toast'
 import { Button } from './ui/button'
+import { Input } from './ui/input'
 
 type InventoryItem = {
     xata_id: string
@@ -73,7 +74,7 @@ export function SalesTable ({items , onUpdateQuantity } : InventoryTableProps){
             <TableRow key={item.xata_id}>
                 <TableCell>{item.name}</TableCell>
                 <TableCell>
-                    <input
+                    <Input 
                     type="number"
                     value={saleQuantities[item.xata_id] || ''}
                     onChange={(e) => handleInputChange(item.xata_id, e.target.value)}

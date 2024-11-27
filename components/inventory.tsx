@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { InventoryTable } from './inventory-table'
 import { InventoryForm } from './inventory-form'
 import { Button } from '@/components/ui/button'
@@ -8,9 +8,10 @@ import { useAuth, checkPermission } from '@/lib/utils'
 import { useToast } from '@/hooks/use-toast'
 import { LoginForm } from './login-form'
 import { ModeToggle } from './mode-toggle'
-import { createProd, deleteProd, updateProd } from '@/utils/activity'
+import { createProd, deleteProd, getCategories, updateProd } from '@/utils/activity'
 import { LowStockAlert } from './low-stock'
 import { SalesTable } from './sales-table'
+import CategoryManagement from './category-management'
 
 
 type InventoryItem = {
@@ -26,6 +27,8 @@ export function Inventory({stock}:{stock:any}) {
   const [items, setItems] = useState<InventoryItem[]>(stock)
   const [editingItem, setEditingItem] = useState<InventoryItem | null>(null)
   const [showForm, setShowForm] = useState(false);
+  const [categories, setCategories] = useState<string[]>([])
+
   const { toast } = useToast()
   const { user, login, logout } = useAuth()
 
@@ -36,6 +39,27 @@ export function Inventory({stock}:{stock:any}) {
   };
 
 
+  
+  useEffect(() => {
+    fetchCategories()
+  }, [])
+
+  const fetchCategories = async () => {
+    try {
+      const fetchedCategories = await getCategories()
+      const categoryNames = fetchedCategories
+        .map(cat => cat.name)
+        .filter((name): name is string => name != null)
+      setCategories(categoryNames)
+    } catch (error) {
+      console.error("Error fetching categories:", error)
+      toast({
+        title: "Error",
+        description: "No se pudieron cargar las categorías.",
+        variant: "destructive",
+      })
+    }
+  }
 
   const addItem = async (item: Omit<InventoryItem, 'xata_id'>) => {
     try {
@@ -205,6 +229,9 @@ export function Inventory({stock}:{stock:any}) {
           <SalesTable
           items={items} 
           onUpdateQuantity={updateQuantity}/>
+        </section>
+        <section>
+            <CategoryManagement/>
         </section>
       </section>
       }

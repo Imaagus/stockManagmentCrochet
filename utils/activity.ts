@@ -23,7 +23,7 @@ export async function createProd(data: { name: string; quantity: number; price: 
       return stock;
     } catch (error) {
       console.error("Error eliminando el producto en la base de datos:", error);
-      throw new Error('No se pudo eliminar el producto.');  // Lanza un error más claro
+      throw new Error('No se pudo eliminar el producto.');  
     }
   }
   export async function updateProd(xata_id:string, data: Partial<{ name: string; quantity: number; price: number ; category: string }>) {
@@ -32,6 +32,23 @@ export async function createProd(data: { name: string; quantity: number; price: 
         return stock;
       } catch (error) {
         console.error("Error eliminando el producto en la base de datos:", error);
-        throw new Error('No se pudo eliminar el producto.');  // Lanza un error más claro
+        throw new Error('No se pudo eliminar el producto.');  
       }
   }
+  export async function getCategories() {
+    const xata = getXataClient()
+    const categories = await xata.db.categoryTable.getAll()
+    return categories
+  }
+  
+  export async function createCategory(name: string) {
+    const xata = getXataClient()
+    const newCategory = await xata.db.categoryTable.create({ name })
+    return newCategory
+  }
+  
+  export async function deleteCategory(id: string) {
+    const xata = getXataClient()
+    await xata.db.categoryTable.delete(id)
+  }
+  
