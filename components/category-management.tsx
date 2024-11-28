@@ -11,7 +11,6 @@ import { getCategories, createCategory, deleteCategory } from '@/utils/activity'
 interface Category {
   xata_id: string; 
   name: string;
-
 }
 
 export default function CategoryManagement() {
@@ -27,7 +26,6 @@ export default function CategoryManagement() {
     try {
       const fetchedCategories = await getCategories();
       const mappedCategories: Category[] = fetchedCategories.map(category => ({
-        id: category.xata_id,
         xata_id: category.xata_id, 
         name: category.name ?? '', 
 
@@ -94,8 +92,9 @@ export default function CategoryManagement() {
     }
   };
 
+
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 w-8/12 justify-self-center ">
       <h2 className="text-2xl font-semibold">Gestión de Categorías</h2>
       <div className="flex space-x-2">
         <Input

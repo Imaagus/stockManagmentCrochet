@@ -118,6 +118,30 @@ const tables = [
         comment: "",
       },
       {
+        name: "sales-quantity",
+        type: "int",
+        notNull: false,
+        unique: false,
+        defaultValue: null,
+        comment: "",
+      },
+      {
+        name: "salesCount",
+        type: "int",
+        notNull: false,
+        unique: false,
+        defaultValue: null,
+        comment: "",
+      },
+      {
+        name: "salesQuantity",
+        type: "text",
+        notNull: false,
+        unique: false,
+        defaultValue: null,
+        comment: "",
+      },
+      {
         name: "xata_createdat",
         type: "datetime",
         notNull: true,
@@ -174,7 +198,6 @@ const defaultOptions = {
   apiKey: process.env.XATA_API_KEY, 
   branch: "main",
 };
-
 
 export class XataClient extends DatabaseClient<DatabaseSchema> {
   constructor(options?: BaseClientOptions) {

@@ -1,0 +1,24 @@
+{
+  "done": true,
+  "migration": {
+    "name": "mig_ct3m11nq6ugj6kq3q8b0",
+    "operations": [
+      {
+        "add_column": {
+          "table": "stockTable",
+          "column": {
+            "name": "salesCount",
+            "type": "int",
+            "comment": "",
+            "nullable": true
+          }
+        }
+      }
+    ]
+  },
+  "migrationType": "pgroll",
+  "name": "mig_ct3m11nq6ugj6kq3q8b0",
+  "parent": "mig_ct3lpr7q6ugj6kq3q8a0",
+  "schema": "public",
+  "startedAt": "2024-11-27T18:10:14.662131Z"
+}

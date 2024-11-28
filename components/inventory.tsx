@@ -20,6 +20,7 @@ type InventoryItem = {
   quantity: number
   price: number
   category: string
+  salesCount: number
 }
 
 
@@ -170,14 +171,14 @@ export function Inventory({stock}:{stock:any}) {
       <h2 className="text-center text-2xl font-bold p-4">Inventario actual</h2>
       <LowStockAlert products={items} threshold={5}/>
       <InventoryTable 
-        items={items} 
-        onEdit={items => {
-          setEditingItem(items)
-          setShowForm(true)
-        }}
-        onDelete={deleteItem} 
-        onUpdateQuantity={updateQuantity}
-      />
+          items={items} 
+          onEdit={items => {
+            setEditingItem(items)
+            setShowForm(true)
+          }}
+          onDelete={deleteItem} 
+          onUpdateQuantity={updateQuantity}
+        />
         <section>
         <div className="justify-items-center">
           <div>

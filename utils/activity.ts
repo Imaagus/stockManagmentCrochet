@@ -51,4 +51,46 @@ export async function createProd(data: { name: string; quantity: number; price: 
     const xata = getXataClient()
     await xata.db.categoryTable.delete(id)
   }
+
+  export async function updateProductSellCount(xata_id: string, quantity: number) {
+    const xata = getXataClient()
+    try {
+      const product = await xata.db.stockTable.read(xata_id)
+      
+      if (product) {
+        // Ensure we're working with numbers
+        const currentSales = typeof product.salesCount === 'string' 
+          ? parseInt(product.salesCount, 10) 
+          : (product.salesCount ?? 0)
+  
+        await xata.db.stockTable.update({
+          xata_id: xata_id,
+          salesCount: currentSales + quantity
+        })
+      }
+    } catch (error) {
+      console.error('Error updating product sell count:', error)
+      throw error
+    }
+  }
+  
+  export async function getSalesData() {
+    const xata = getXataClient()
+    try {
+      const data = await xata.db.stockTable.select(['xata_id', 'name', 'salesCount', 'price']).getAll()
+      return data.map(item => ({
+        xata_id: item.xata_id,
+        name: item.name || 'Sin nombre',
+        salesCount: typeof item.salesCount === 'string' 
+          ? parseInt(item.salesCount, 10) 
+          : (item.salesCount ?? 0),
+        price: typeof item.price === 'string' 
+          ? parseFloat(item.price) 
+          : (item.price ?? 0)
+      }))
+    } catch (error) {
+      console.error('Error getting sales data:', error)
+      throw error
+    }
+  }
   

@@ -14,6 +14,7 @@ type InventoryItem = {
   quantity: number
   price: number
   category: string
+  salesCount: number
 }
 
 type InventoryFormProps = {
@@ -26,6 +27,8 @@ export function InventoryForm({ onSubmit, initialData }: InventoryFormProps) {
   const [quantity, setQuantity] = useState('')
   const [price, setPrice] = useState('')
   const [category, setCategory] = useState('')
+  const [salesCount, setCount] = useState('')
+  const [categories, setCategories] = useState<string[]>([])
 
 
   useEffect(() => {
@@ -35,7 +38,23 @@ export function InventoryForm({ onSubmit, initialData }: InventoryFormProps) {
       setPrice(initialData.price.toString())
       setCategory(initialData.category)
     }
+    fetchCategories()
   }, [initialData])
+
+  const fetchCategories = async () => {
+    try {
+      const fetchedCategories = await getCategories()
+      const categoryNames = fetchedCategories.map(cat => cat.name).filter((name): name is string => name != null)
+      setCategories(categoryNames)
+    } catch (error) {
+      console.error("Error fetching categories:", error)
+      toast({
+        title: "Error",
+        description: "No se pudieron cargar las categorías.",
+        variant: "destructive",
+      })
+    }
+  }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -52,19 +71,13 @@ export function InventoryForm({ onSubmit, initialData }: InventoryFormProps) {
       quantity: parseInt(quantity),
       price: parseFloat(price),
       category,
+      salesCount: parseInt(salesCount),
     })
     setName('')
     setQuantity('')
     setPrice('')
     setCategory('')
-  }
-
-  const categoryes = async () => {
-    try{
-      const category = await getCategories()
-    }catch{
-      console.log("error")
-    }
+    setCount('')
   }
   
   return (
@@ -102,20 +115,16 @@ export function InventoryForm({ onSubmit, initialData }: InventoryFormProps) {
         </div>
         <div className="w-full p-4">
         <Label htmlFor="category">Categoria</Label>
-        <Select value={category} onValueChange={setCategory}>
-        
-          <SelectTrigger  className="w-full">
-            <SelectValue  />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="Moto Cub">Moto Cub</SelectItem>
-            <SelectItem value="Moto Street">Moto Street</SelectItem>
-            <SelectItem value="Motocross">Motocross</SelectItem>
-            <SelectItem value="Moto Deportiva">Moto Deportiva</SelectItem>
-            <SelectItem value="Scooter">Scooter</SelectItem>
-          </SelectContent>
-
-        </Select>
+          <Select value={category} onValueChange={setCategory}>
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Seleccione una categoría" />
+            </SelectTrigger>
+            <SelectContent>
+              {categories.map((cat) => (
+                <SelectItem key={cat} value={cat}>{cat}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
       </div>
       <div className="justify-self-center">

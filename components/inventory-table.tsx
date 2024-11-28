@@ -14,6 +14,7 @@ type InventoryItem = {
   quantity: number
   price: number
   category: string
+  salesCount: number
 }
 
 type InventoryTableProps = {
