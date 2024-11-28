@@ -15,6 +15,7 @@ type InventoryItem = {
   price: number
   category: string
   salesCount: number
+  totalSold: number
 }
 
 type InventoryFormProps = {
@@ -28,6 +29,8 @@ export function InventoryForm({ onSubmit, initialData }: InventoryFormProps) {
   const [price, setPrice] = useState('')
   const [category, setCategory] = useState('')
   const [salesCount, setCount] = useState('')
+  const [totalSales, setSold] = useState('')
+
   const [categories, setCategories] = useState<string[]>([])
 
 
@@ -72,12 +75,14 @@ export function InventoryForm({ onSubmit, initialData }: InventoryFormProps) {
       price: parseFloat(price),
       category,
       salesCount: parseInt(salesCount),
+      totalSold: parseInt(totalSales)
     })
     setName('')
     setQuantity('')
     setPrice('')
     setCategory('')
     setCount('')
+    setSold('')
   }
   
   return (

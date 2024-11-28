@@ -12,6 +12,7 @@ import { createProd, deleteProd, getCategories, updateProd } from '@/utils/activ
 import { LowStockAlert } from './low-stock'
 import { SalesTable } from './sales-table'
 import CategoryManagement from './category-management'
+import { ExportData } from './export-data'
 
 
 type InventoryItem = {
@@ -21,6 +22,7 @@ type InventoryItem = {
   price: number
   category: string
   salesCount: number
+  totalSold: number
 }
 
 
@@ -233,6 +235,9 @@ export function Inventory({stock}:{stock:any}) {
         </section>
         <section>
             <CategoryManagement/>
+        </section>
+        <section>
+          <ExportData products={items}/>
         </section>
       </section>
       }

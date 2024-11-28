@@ -58,7 +58,6 @@ export async function createProd(data: { name: string; quantity: number; price: 
       const product = await xata.db.stockTable.read(xata_id)
       
       if (product) {
-        // Ensure we're working with numbers
         const currentSales = typeof product.salesCount === 'string' 
           ? parseInt(product.salesCount, 10) 
           : (product.salesCount ?? 0)
@@ -73,24 +72,46 @@ export async function createProd(data: { name: string; quantity: number; price: 
       throw error
     }
   }
+  export async function updateProductTotalSold(xata_id: string, quantity: number, price: number) {
+    const xata = getXataClient()
+    try {
+      const product = await xata.db.stockTable.read(xata_id)
+      
+      if (product) {
+        const currentTotalSold = product.totalSold ?? 0
+        const saleAmount = quantity * price
+        
+        await xata.db.stockTable.update({
+          xata_id: xata_id,
+          totalSold: currentTotalSold + saleAmount
+        })
+      }
+    } catch (error) {
+      console.error('Error updating total sold:', error)
+      throw error
+    }
+  }
   
   export async function getSalesData() {
     const xata = getXataClient()
     try {
-      const data = await xata.db.stockTable.select(['xata_id', 'name', 'salesCount', 'price']).getAll()
+      const data = await xata.db.stockTable.select([
+        'xata_id', 
+        'name', 
+        'salesCount', 
+        'price',
+        'totalSold'
+      ]).getAll()
+      
       return data.map(item => ({
         xata_id: item.xata_id,
         name: item.name || 'Sin nombre',
-        salesCount: typeof item.salesCount === 'string' 
-          ? parseInt(item.salesCount, 10) 
-          : (item.salesCount ?? 0),
-        price: typeof item.price === 'string' 
-          ? parseFloat(item.price) 
-          : (item.price ?? 0)
+        salesCount: typeof item.salesCount === 'number' ? item.salesCount : 0,
+        price: typeof item.price === 'number' ? item.price : 0,
+        totalSold: typeof item.totalSold === 'number' ? item.totalSold : 0
       }))
     } catch (error) {
       console.error('Error getting sales data:', error)
       throw error
     }
   }
-  
