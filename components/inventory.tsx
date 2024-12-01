@@ -7,12 +7,11 @@ import { Button } from '@/components/ui/button'
 import { useAuth, checkPermission } from '@/lib/utils'
 import { useToast } from '@/hooks/use-toast'
 import { LoginForm } from './login-form'
-import { ModeToggle } from './mode-toggle'
 import { createProd, deleteProd, getCategories, updateProd } from '@/utils/activity'
 import { LowStockAlert } from './low-stock'
 import { SalesTable } from './sales-table'
 import CategoryManagement from './category-management'
-import { ExportData } from './export-data'
+import Header from './header'
 
 
 type InventoryItem = {
@@ -149,21 +148,8 @@ export function Inventory({stock}:{stock:any}) {
   
   return (
     <div className="min-h-screen bg-background text-foreground">
-       <header>
-        <nav className="w-full h-24 border-b bg-zinc-100 dark:bg-zinc-900">
-        <div  className="container mx-auto px-4 pt-8 flex justify-between items-center">
-          <h1 className="text-2xl font-bold">Sistema de Gestión de Inventario</h1>
-          <div className="flex items-center gap-4">
-            <ModeToggle/>
-            {user && (
-              <span className="text-sm">
-                Bienvenido, {user.username} ({user.role})
-              </span>
-            )}
-            {user && <Button onClick={logout}>Cerrar sesión</Button>}
-          </div>
-        </div>
-        </nav>
+      <header>
+        <Header/>  
       </header>
       <main className="container mx-auto p-4">
       {!user? (
@@ -171,7 +157,6 @@ export function Inventory({stock}:{stock:any}) {
       ): 
       <section>
       <h2 className="text-center text-2xl font-bold p-4">Inventario actual</h2>
-      <LowStockAlert products={items} threshold={5}/>
       <InventoryTable 
           items={items} 
           onEdit={items => {
@@ -229,15 +214,7 @@ export function Inventory({stock}:{stock:any}) {
             )}
         </section>
         <section>
-          <SalesTable
-          items={items} 
-          onUpdateQuantity={updateQuantity}/>
-        </section>
-        <section>
             <CategoryManagement/>
-        </section>
-        <section>
-          <ExportData products={items}/>
         </section>
       </section>
       }

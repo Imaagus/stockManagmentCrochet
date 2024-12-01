@@ -5,6 +5,7 @@ import { AlertCircle, Minus, Plus } from 'lucide-react'
 import { useState } from 'react'
 import { Alert, AlertDescription, AlertTitle } from './ui/alert'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select'
+import { ExportData } from './export-data'
 
 
 
@@ -54,7 +55,8 @@ export function InventoryTable ({ items, onEdit, onDelete, onUpdateQuantity }: I
 
   return (
     <div>
-    <div className="mb-4 flex space-x-2">
+    <div className="mb-4 flex space-x-2 justify-between">
+      <div className="mb-4 flex space-x-2">
         <Input
           placeholder="Buscar productos..."
           value={search}
@@ -72,6 +74,8 @@ export function InventoryTable ({ items, onEdit, onDelete, onUpdateQuantity }: I
             ))}
           </SelectContent>
         </Select>
+      </div>
+      <ExportData products={items}/>
     </div>
     <Table>
       <TableHeader>
