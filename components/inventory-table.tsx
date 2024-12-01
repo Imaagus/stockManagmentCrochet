@@ -77,6 +77,7 @@ export function InventoryTable ({ items, onEdit, onDelete, onUpdateQuantity }: I
       </div>
       <ExportData products={items}/>
     </div>
+    <div className="p-8 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-zinc-800 dark:to-zinc-900 rounded-xl shadow-lg transition-colors duration-500">
     <Table>
       <TableHeader>
         <TableRow>
@@ -89,7 +90,7 @@ export function InventoryTable ({ items, onEdit, onDelete, onUpdateQuantity }: I
       </TableHeader>
       <TableBody>
         {filteredProducts.map(item => (
-          <TableRow key={item.xata_id}>
+          <TableRow key={item.xata_id} className="hover:bg-purple-100 dark:hover:bg-gray-700 transition-colors ">
             <TableCell>{item.name}</TableCell>
             <TableCell>{item.quantity}</TableCell>
             <TableCell>${item.price.toFixed(2)}</TableCell>
@@ -108,6 +109,7 @@ export function InventoryTable ({ items, onEdit, onDelete, onUpdateQuantity }: I
         ))}
       </TableBody>
     </Table>
+    </div>
      {itemToDelete && (
       <Alert variant="destructive" className="mt-4">
         <div className="flex h-24 justify-between items-center">

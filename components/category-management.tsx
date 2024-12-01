@@ -105,6 +105,7 @@ export default function CategoryManagement() {
         />
         <Button onClick={addCategory}>Agregar Categoría</Button>
       </div>
+      <div className="p-8 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-zinc-800 dark:to-zinc-900 rounded-xl shadow-lg transition-colors duration-500">
       <Table className="mt-4">
         <TableHeader>
           <TableRow>
@@ -114,7 +115,7 @@ export default function CategoryManagement() {
         </TableHeader>
         <TableBody>
           {categories.map((category) => (
-            <TableRow key={category.xata_id}>
+            <TableRow key={category.xata_id}  className="hover:bg-purple-100 dark:hover:bg-gray-700 transition-colors ">
               <TableCell>{category.name}</TableCell>
               <TableCell>
                 <Button
@@ -128,6 +129,7 @@ export default function CategoryManagement() {
           ))}
         </TableBody>
       </Table>
+      </div>
     </div>
   );
 }

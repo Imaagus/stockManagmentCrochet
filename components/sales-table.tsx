@@ -103,6 +103,7 @@ export function SalesTable({ items, onUpdateQuantity }: SalesTableProps) {
   return (
     <div className="my-16">
       <h2 className="text-2xl my-4 text-center">Tabla de ventas</h2>
+      <div className="p-8 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-zinc-800 dark:to-zinc-900 rounded-xl shadow-lg transition-colors duration-500">
       <Table>
         <TableHeader>
           <TableRow>
@@ -121,7 +122,7 @@ export function SalesTable({ items, onUpdateQuantity }: SalesTableProps) {
             const totalRevenue = salesItem?.totalSold ?? 0
             
             return (
-              <TableRow key={product.xata_id}>
+              <TableRow key={product.xata_id} className="hover:bg-purple-100 dark:hover:bg-gray-700 transition-colors ">
                 <TableCell>{product.name}</TableCell>
                 <TableCell>{product.quantity}</TableCell>
                 <TableCell>
@@ -146,6 +147,7 @@ export function SalesTable({ items, onUpdateQuantity }: SalesTableProps) {
           })}
         </TableBody>
       </Table>
+      </div>
     </div>
   )
 }
