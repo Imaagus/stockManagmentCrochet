@@ -1,15 +1,14 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { InventoryTable } from './inventory-table'
 import { InventoryForm } from './inventory-form'
 import { Button } from '@/components/ui/button'
-import { useAuth, checkPermission } from '@/lib/utils'
+import { useAuth } from '@/lib/utils'
 import { useToast } from '@/hooks/use-toast'
 import { LoginForm } from './login-form'
 import { createProd, deleteProd, getCategories, updateProd } from '@/utils/activity'
-import { LowStockAlert } from './low-stock'
-import { SalesTable } from './sales-table'
+
 import CategoryManagement from './category-management'
 import Header from './header'
 
@@ -25,16 +24,14 @@ type InventoryItem = {
 }
 
 
-export function Inventory({stock}:{stock:any}) {
+export function Inventory({stock} : { stock : InventoryItem[] }) {
   const [items, setItems] = useState<InventoryItem[]>(stock)
   const [editingItem, setEditingItem] = useState<InventoryItem | null>(null)
   const [showForm, setShowForm] = useState(false);
-  const [categories, setCategories] = useState<string[]>([])
 
   const { toast } = useToast()
-  const { user, login, logout } = useAuth()
+  const { user, login } = useAuth()
 
-  const handleShowForm = () => setShowForm(true);
   const handleHideForm = () => {
     setShowForm(false);
     setEditingItem(null); 
@@ -42,36 +39,34 @@ export function Inventory({stock}:{stock:any}) {
 
 
   
-  useEffect(() => {
-    fetchCategories()
-  }, [])
 
-  const fetchCategories = async () => {
+  const fetchCategories = useCallback(async () => {
     try {
-      const fetchedCategories = await getCategories()
-      const categoryNames = fetchedCategories
-        .map(cat => cat.name)
-        .filter((name): name is string => name != null)
-      setCategories(categoryNames)
+      const fetchedCategories = await getCategories();
+      fetchedCategories
+        .map((cat) => cat.name)
+        .filter((name): name is string => name != null);
     } catch (error) {
-      console.error("Error fetching categories:", error)
+      console.error("Error fetching categories:", error);
       toast({
         title: "Error",
         description: "No se pudieron cargar las categorías.",
         variant: "destructive",
-      })
+      });
     }
-  }
+  }, []);
+
+  useEffect(() => {
+    fetchCategories();
+  }, [fetchCategories]);
 
   const addItem = async (item: Omit<InventoryItem, 'xata_id'>) => {
     try {
       const newProduct = await createProd(item);
-
-       const newItem: InventoryItem = {
+      const newItem: InventoryItem = {
         ...item,
         xata_id: newProduct.xata_id,
       };
-
       setItems((prevItems) => [...prevItems, newItem]);
       toast({
         title: "Producto agregado",
@@ -87,10 +82,9 @@ export function Inventory({stock}:{stock:any}) {
     }
   };
   
-  
   const updateItem = async (updatedItem: InventoryItem) => {
     try{
-      const item = await updateProd(updatedItem.xata_id, {
+        await updateProd(updatedItem.xata_id, {
         name: updatedItem.name,
         quantity: updatedItem.quantity,
         price: updatedItem.price,

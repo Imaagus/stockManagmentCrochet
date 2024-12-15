@@ -24,7 +24,7 @@ const users: User[] = [
 export function useAuth() {
   const [user, setUser] = useState<User | null>(null)
 
-  const login = (username: string, password: string) => {
+  const login = (username: string) => {
     // En una aplicación real, aquí verificarías las credenciales con el backend
     const foundUser = users.find(u => u.username === username)
     if (foundUser) {

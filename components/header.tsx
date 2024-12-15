@@ -8,7 +8,7 @@ import { useAuth } from "@/lib/utils";
 
 export default function Header (){
 
-    const { user, login, logout } = useAuth()
+    const { user, logout } = useAuth()
 
     return(
         <nav className="w-full h-24 border-b bg-zinc-100 dark:bg-zinc-900">

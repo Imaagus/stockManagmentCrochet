@@ -5,9 +5,9 @@ const xata = getXataClient();
 
 export async function getStock (){
     const stock = await xata.db.stockTable.getAll()
-    console.log(stock)
     return stock
 }
+
 export async function createProd(data: { name: string; quantity: number; price: number ; category: string}) {
     try {
       const stock = await xata.db.stockTable.create(data);

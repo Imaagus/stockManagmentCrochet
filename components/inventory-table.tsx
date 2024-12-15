@@ -1,7 +1,7 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { Button } from '@/components/ui/button'
 import { Input } from './ui/input'
-import { AlertCircle, Minus, Plus } from 'lucide-react'
+import { AlertCircle } from 'lucide-react'
 import { useState } from 'react'
 import { Alert, AlertDescription, AlertTitle } from './ui/alert'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select'
@@ -26,7 +26,7 @@ type InventoryTableProps = {
   onUpdateQuantity: (xata_id: string, newQuantity: number) => void
 }
 
-export function InventoryTable ({ items, onEdit, onDelete, onUpdateQuantity }: InventoryTableProps) {
+export function InventoryTable ({ items, onEdit, onDelete }: InventoryTableProps) {
   const [itemToDelete, setItemToDelete] = useState<InventoryItem | null>(null)
   const [search, setSearch] = useState('')
   const [categoryFilter, setCategoryFilter] = useState('all')
