@@ -218,7 +218,7 @@ let instance: XataClient | undefined = undefined;
 export const getXataClient = () => {
   if (instance) return instance;
 
-  const apiKey = process.env.NEXT_PUBLIC_XATA_API_KEY; // Ajusta el nombre de la variable si es diferente
+  const apiKey = process.env.NEXT_PUBLIC_XATA_API_KEY;
 
   if (!apiKey) {
     throw new Error("Option apiKey is required. Ensure the API key is set in the environment variables.");
