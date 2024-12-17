@@ -1,8 +1,12 @@
 
 import Link from "next/link";
 import { ModeToggle } from "./mode-toggle";
+import { Button } from "./ui/button";
+
+
 
 export default function Header (){
+
 
     return(
         <nav className="w-full h-24 border-b bg-zinc-100 dark:bg-zinc-900">
@@ -14,13 +18,13 @@ export default function Header (){
           </span>
           </div>
           <div className="flex items-center gap-4">
-            <Link href="/" >
-              Inicio
-            </Link>
-            <Link href="/sales" >
-              Ventas
-            </Link>
             <ModeToggle/>
+            <Link href="/sales" >
+              <Button variant="default">Ventas</Button>
+            </Link>
+            <Link href="/" >
+              <Button variant="default">Inicio</Button>
+            </Link>
           </div>
         </div>
         </nav>
