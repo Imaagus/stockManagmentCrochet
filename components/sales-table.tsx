@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react'
 import { useToast } from '@/hooks/use-toast'
 import { Button } from './ui/button'
 import { Input } from './ui/input'
-import { updateProductSellCount, updateProductTotalSold , getSalesData} from '@/utils/activity'
+import { updateProductSellCount, updateProductTotalSold, getSalesData } from '@/utils/activity'
 
 interface Product {
   xata_id: string
@@ -17,7 +17,6 @@ interface Product {
   totalSold: number
 }
 
-
 type SalesData = {
   xata_id: string
   name: string
@@ -28,17 +27,13 @@ type SalesData = {
 
 type SalesTableProps = {
   items: Product[]
-  onUpdateQuantity: (xata_id: string, newQuantity: number) => void
+  onUpdateQuantity: (xata_id: string, newQuantity: number) => Promise<void>
 }
 
 export function SalesTable({ items, onUpdateQuantity }: SalesTableProps) {
   const [saleQuantities, setSaleQuantities] = useState<Record<string, number | ''>>({})
   const [salesData, setSalesData] = useState<SalesData[]>([])
   const { toast } = useToast()
-
-  useEffect(() => {
-    fetchSalesData()
-  }, [])
 
   const fetchSalesData = async () => {
     try {
@@ -54,6 +49,9 @@ export function SalesTable({ items, onUpdateQuantity }: SalesTableProps) {
     }
   }
 
+  useEffect(() => {
+    fetchSalesData()
+  }, [])
 
   const handleInputChange = (xata_id: string, value: string) => {
     const quantity = parseInt(value, 10)
@@ -63,25 +61,18 @@ export function SalesTable({ items, onUpdateQuantity }: SalesTableProps) {
     })
   }
 
-
   const handleSale = async (product: Product) => {
     const saleQuantity = saleQuantities[product.xata_id]
     if (typeof saleQuantity === 'number' && saleQuantity > 0 && product.quantity >= saleQuantity) {
       try {
-        // Update sales count
         await updateProductSellCount(product.xata_id, saleQuantity)
-        // Update total sold amount
         await updateProductTotalSold(product.xata_id, saleQuantity, product.price)
-        // Update inventory quantity
-        onUpdateQuantity(product.xata_id, product.quantity - saleQuantity)
-        // Clear input
+        await onUpdateQuantity(product.xata_id, product.quantity - saleQuantity)
         setSaleQuantities(prev => ({ ...prev, [product.xata_id]: '' }))
-        
         toast({
           title: 'Venta registrada',
           description: `Se han vendido ${saleQuantity} unidades de ${product.name}.`,
         })
-        // Refresh data to show updated totals
         fetchSalesData()
       } catch (error) {
         console.error('Error registering sale:', error)
@@ -151,6 +142,3 @@ export function SalesTable({ items, onUpdateQuantity }: SalesTableProps) {
     </div>
   )
 }
-
-
-//poner total de plata vendido en tal producto en la tablahead

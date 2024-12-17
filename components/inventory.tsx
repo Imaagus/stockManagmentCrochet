@@ -5,7 +5,7 @@ import { InventoryTable } from './inventory-table'
 import { InventoryForm } from './inventory-form'
 import { Button } from '@/components/ui/button'
 import { useToast } from '@/hooks/use-toast'
-import { createProd, deleteProd, getCategories, updateProd } from '@/utils/activity'
+import { createProd, deleteProd, getCategories, getStock, updateProd } from '@/utils/activity'
 
 import CategoryManagement from './category-management'
 import Header from './header'
@@ -54,6 +54,34 @@ export function Inventory({stock} : { stock : InventoryItem[] }) {
   useEffect(() => {
     fetchCategories();
   }, [fetchCategories]);
+
+  const refreshInventory = useCallback(async () => {
+    try {
+      const stockData = await getStock()
+      const updatedItems = stockData.map((item) => ({
+        xata_id: item.xata_id,
+        name: item.name || '',
+        quantity: item.quantity || 0,
+        price: item.price || 0,
+        category: item.category || '',
+        salesCount: item.salesCount || 0,
+        totalSold: item.totalSold || 0,
+      }))
+      setItems(updatedItems)
+    } catch (error) {
+      console.error('Error refreshing inventory:', error)
+      toast({
+        title: "Error",
+        description: "No se pudo actualizar el inventario.",
+        variant: "destructive",
+      })
+    }
+  }, [toast])
+
+  useEffect(() => {
+    fetchCategories()
+    refreshInventory()
+  }, [fetchCategories, refreshInventory])
 
   const addItem = async (item: Omit<InventoryItem, 'xata_id'>) => {
     try {
