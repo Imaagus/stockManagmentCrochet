@@ -1,7 +1,7 @@
 {
   "done": true,
   "migration": {
-    "name": "mig_ct0de3hepcd2abflk66g",
+    "name": "mig_ctgrga9901h3pf6vhs30",
     "operations": [
       {
         "sql": {
@@ -11,7 +11,7 @@
     ]
   },
   "migrationType": "pgroll",
-  "name": "mig_ct0de3hepcd2abflk66g",
+  "name": "mig_ctgrga9901h3pf6vhs30",
   "schema": "public",
-  "startedAt": "2024-11-22T19:10:06.137096Z"
+  "startedAt": "2024-12-17T17:43:05.211911Z"
 }

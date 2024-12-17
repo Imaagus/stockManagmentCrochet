@@ -1,13 +1,13 @@
 {
   "done": true,
   "migration": {
-    "name": "mig_ct3m11nq6ugj6kq3q8b0",
+    "name": "mig_ctgrhlt7965n01fhsj30",
     "operations": [
       {
         "add_column": {
           "table": "stockTable",
           "column": {
-            "name": "salesCount",
+            "name": "totalSold",
             "type": "int",
             "comment": "",
             "nullable": true
@@ -17,8 +17,8 @@
     ]
   },
   "migrationType": "pgroll",
-  "name": "mig_ct3m11nq6ugj6kq3q8b0",
-  "parent": "mig_ct3lpr7q6ugj6kq3q8a0",
+  "name": "mig_ctgrhlt7965n01fhsj30",
+  "parent": "mig_ctgrhih901h3pf6vhs3g",
   "schema": "public",
-  "startedAt": "2024-11-27T18:10:14.662131Z"
+  "startedAt": "2024-12-17T17:46:00.419007Z"
 }

@@ -1,16 +1,14 @@
 {
   "done": true,
   "migration": {
-    "name": "mig_ct2b8kth2217orpla6lg",
+    "name": "mig_ctgrh0l7965n01fhsj10",
     "operations": [
       {
         "add_column": {
           "table": "stockTable",
           "column": {
-            "pk": false,
-            "name": "category",
-            "type": "text",
-            "unique": false,
+            "name": "quantity",
+            "type": "int",
             "comment": "",
             "nullable": true
           }
@@ -19,8 +17,8 @@
     ]
   },
   "migrationType": "pgroll",
-  "name": "mig_ct2b8kth2217orpla6lg",
-  "parent": "mig_ct2b87lc21vap51eitg0",
+  "name": "mig_ctgrh0l7965n01fhsj10",
+  "parent": "mig_ctgrgr57965n01fhsj00",
   "schema": "public",
-  "startedAt": "2024-11-25T17:31:00.397514Z"
+  "startedAt": "2024-12-17T17:44:34.462034Z"
 }

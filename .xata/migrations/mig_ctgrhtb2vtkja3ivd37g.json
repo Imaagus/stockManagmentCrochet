@@ -1,61 +1,57 @@
 {
   "done": true,
   "migration": {
-    "name": "mig_ct0dh1bc6bgt3nomvk90",
+    "name": "mig_ctgrhtb2vtkja3ivd37g",
     "operations": [
       {
         "create_table": {
-          "name": "stock",
+          "name": "categoryTable",
           "columns": [
             {
               "name": "xata_id",
               "type": "text",
               "check": {
-                "name": "stock_xata_id_length_xata_id",
+                "name": "categoryTable_xata_id_length_xata_id",
                 "constraint": "length(\"xata_id\") < 256"
               },
               "unique": true,
-              "default": "'rec_' || xata_private.xid()",
-              "nullable": false
+              "default": "'rec_' || xata_private.xid()"
             },
             {
               "name": "xata_version",
               "type": "integer",
-              "default": "0",
-              "nullable": false
+              "default": "0"
             },
             {
               "name": "xata_createdat",
               "type": "timestamptz",
-              "default": "now()",
-              "nullable": false
+              "default": "now()"
             },
             {
               "name": "xata_updatedat",
               "type": "timestamptz",
-              "default": "now()",
-              "nullable": false
+              "default": "now()"
             }
           ]
         }
       },
       {
         "sql": {
-          "up": "ALTER TABLE \"stock\" REPLICA IDENTITY FULL",
+          "up": "ALTER TABLE \"categoryTable\" REPLICA IDENTITY FULL",
           "onComplete": true
         }
       },
       {
         "sql": {
-          "up": "CREATE TRIGGER xata_maintain_metadata_trigger_pgroll\n  BEFORE INSERT OR UPDATE\n  ON \"stock\"\n  FOR EACH ROW\n  EXECUTE FUNCTION xata_private.maintain_metadata_trigger_pgroll()",
+          "up": "CREATE TRIGGER xata_maintain_metadata_trigger_pgroll\n  BEFORE INSERT OR UPDATE\n  ON \"categoryTable\"\n  FOR EACH ROW\n  EXECUTE FUNCTION xata_private.maintain_metadata_trigger_pgroll()",
           "onComplete": true
         }
       }
     ]
   },
   "migrationType": "pgroll",
-  "name": "mig_ct0dh1bc6bgt3nomvk90",
-  "parent": "mig_ct0de3hepcd2abflk66g",
+  "name": "mig_ctgrhtb2vtkja3ivd37g",
+  "parent": "mig_ctgrhlt7965n01fhsj30",
   "schema": "public",
-  "startedAt": "2024-11-22T19:16:22.369004Z"
+  "startedAt": "2024-12-17T17:46:29.766404Z"
 }

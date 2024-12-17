@@ -70,8 +70,8 @@ const tables = [
   {
     name: "stockTable",
     checkConstraints: {
-      stockTable_xata_id_length_xata_id: {
-        name: "stockTable_xata_id_length_xata_id",
+      stock_xata_id_length_xata_id: {
+        name: "stock_xata_id_length_xata_id",
         columns: ["xata_id"],
         definition: "CHECK ((length(xata_id) < 256))",
       },
@@ -79,8 +79,8 @@ const tables = [
     foreignKeys: {},
     primaryKey: [],
     uniqueConstraints: {
-      _pgroll_new_stockTable_xata_id_key: {
-        name: "_pgroll_new_stockTable_xata_id_key",
+      _pgroll_new_stock_xata_id_key: {
+        name: "_pgroll_new_stock_xata_id_key",
         columns: ["xata_id"],
       },
     },
@@ -118,24 +118,8 @@ const tables = [
         comment: "",
       },
       {
-        name: "sales-quantity",
-        type: "int",
-        notNull: false,
-        unique: false,
-        defaultValue: null,
-        comment: "",
-      },
-      {
         name: "salesCount",
         type: "int",
-        notNull: false,
-        unique: false,
-        defaultValue: null,
-        comment: "",
-      },
-      {
-        name: "salesQuantity",
-        type: "text",
         notNull: false,
         unique: false,
         defaultValue: null,
@@ -202,9 +186,10 @@ export type DatabaseSchema = {
 const DatabaseClient = buildClient();
 
 const defaultOptions = {
-  databaseURL: "https://Imanol-s-workspace-i3tp1f.us-east-1.xata.sh/db/stock",
-  apiKey: process.env.XATA_API_KEY, 
-  branch: "main",
+  databaseURL:
+    "https://Imanol-s-workspace-i3tp1f.us-east-1.xata.sh/db/stockCrochet",
+    apiKey: process.env.XATA_API_KEY, 
+    branch: "main",
 };
 
 export class XataClient extends DatabaseClient<DatabaseSchema> {
@@ -218,11 +203,6 @@ let instance: XataClient | undefined = undefined;
 export const getXataClient = () => {
   if (instance) return instance;
 
-  console.log("XATA API KEY:", process.env.NEXT_PUBLIC_XATA_API_KEY); 
-
-  instance = new XataClient({
-    apiKey: process.env.NEXT_PUBLIC_XATA_API_KEY,
-  });
-
+  instance = new XataClient();
   return instance;
 };

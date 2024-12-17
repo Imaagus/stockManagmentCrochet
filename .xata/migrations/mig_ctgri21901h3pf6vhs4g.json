@@ -1,16 +1,14 @@
 {
   "done": true,
   "migration": {
-    "name": "mig_ct3gf8jo8f8ipoqdsa20",
+    "name": "mig_ctgri21901h3pf6vhs4g",
     "operations": [
       {
         "add_column": {
           "table": "categoryTable",
           "column": {
-            "pk": false,
             "name": "name",
             "type": "text",
-            "unique": false,
             "comment": "",
             "nullable": true
           }
@@ -19,8 +17,8 @@
     ]
   },
   "migrationType": "pgroll",
-  "name": "mig_ct3gf8jo8f8ipoqdsa20",
-  "parent": "mig_ct3gf31pprgvq17hk2k0",
+  "name": "mig_ctgri21901h3pf6vhs4g",
+  "parent": "mig_ctgrhtb2vtkja3ivd37g",
   "schema": "public",
-  "startedAt": "2024-11-27T11:50:59.114174Z"
+  "startedAt": "2024-12-17T17:46:49.054694Z"
 }

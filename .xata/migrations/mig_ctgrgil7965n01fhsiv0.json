@@ -1,0 +1,19 @@
+{
+  "done": true,
+  "migration": {
+    "name": "mig_ctgrgil7965n01fhsiv0",
+    "operations": [
+      {
+        "rename_table": {
+          "to": "stockTable",
+          "from": "stock"
+        }
+      }
+    ]
+  },
+  "migrationType": "pgroll",
+  "name": "mig_ctgrgil7965n01fhsiv0",
+  "parent": "mig_ctgrget7965n01fhsiu0",
+  "schema": "public",
+  "startedAt": "2024-12-17T17:43:38.741172Z"
+}

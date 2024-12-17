@@ -4,9 +4,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { InventoryTable } from './inventory-table'
 import { InventoryForm } from './inventory-form'
 import { Button } from '@/components/ui/button'
-import { useAuth } from '@/lib/utils'
 import { useToast } from '@/hooks/use-toast'
-import { LoginForm } from './login-form'
 import { createProd, deleteProd, getCategories, updateProd } from '@/utils/activity'
 
 import CategoryManagement from './category-management'
@@ -30,15 +28,12 @@ export function Inventory({stock} : { stock : InventoryItem[] }) {
   const [showForm, setShowForm] = useState(false);
 
   const { toast } = useToast()
-  const { user, login } = useAuth()
 
+  
   const handleHideForm = () => {
     setShowForm(false);
     setEditingItem(null); 
   };
-
-
-  
 
   const fetchCategories = useCallback(async () => {
     try {
@@ -146,11 +141,8 @@ export function Inventory({stock} : { stock : InventoryItem[] }) {
         <Header/>  
       </header>
       <main className="container mx-auto p-4">
-      {!user? (
-        <LoginForm onLogin={login}/>
-      ): 
       <section>
-      <h2 className="text-center text-2xl font-bold p-4">Inventario actual</h2>
+      <h2 className="text-center text-2xl font-bold p-4">Inventario actual El crochet de Andrea</h2>
       <InventoryTable 
           items={items} 
           onEdit={items => {
@@ -211,7 +203,6 @@ export function Inventory({stock} : { stock : InventoryItem[] }) {
             <CategoryManagement/>
         </section>
       </section>
-      }
       </main>
     </div>
   )

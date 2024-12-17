@@ -1,18 +1,12 @@
 {
   "done": true,
   "migration": {
-    "name": "mig_ct0uenrc6bgt3nomvobg",
+    "name": "mig_ctgrget7965n01fhsiu0",
     "operations": [
       {
         "create_table": {
           "name": "stock",
           "columns": [
-            {
-              "name": "xata_updatedat",
-              "type": "timestamptz",
-              "default": "now()",
-              "nullable": false
-            },
             {
               "name": "xata_id",
               "type": "text",
@@ -21,20 +15,22 @@
                 "constraint": "length(\"xata_id\") < 256"
               },
               "unique": true,
-              "default": "'rec_' || xata_private.xid()",
-              "nullable": false
+              "default": "'rec_' || xata_private.xid()"
             },
             {
               "name": "xata_version",
               "type": "integer",
-              "default": "0",
-              "nullable": false
+              "default": "0"
             },
             {
               "name": "xata_createdat",
               "type": "timestamptz",
-              "default": "now()",
-              "nullable": false
+              "default": "now()"
+            },
+            {
+              "name": "xata_updatedat",
+              "type": "timestamptz",
+              "default": "now()"
             }
           ]
         }
@@ -54,8 +50,8 @@
     ]
   },
   "migrationType": "pgroll",
-  "name": "mig_ct0uenrc6bgt3nomvobg",
-  "parent": "mig_ct0uejfspl6m3joq9ru0",
+  "name": "mig_ctgrget7965n01fhsiu0",
+  "parent": "mig_ctgrga9901h3pf6vhs30",
   "schema": "public",
-  "startedAt": "2024-11-23T14:32:00.401976Z"
+  "startedAt": "2024-12-17T17:43:24.662357Z"
 }
