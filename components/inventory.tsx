@@ -141,34 +141,34 @@ export function Inventory({stock} : { stock : InventoryItem[] }) {
         <Header/>  
       </header>
       <main className="container mx-auto p-4">
-      <section>
-      <h2 className="text-center text-2xl font-bold p-4">Inventario actual El crochet de Andrea</h2>
-      <InventoryTable 
-          items={items} 
-          onEdit={items => {
-            setEditingItem(items)
-            setShowForm(true)
-          }}
-          onDelete={deleteItem} 
-          onUpdateQuantity={updateQuantity}
-        />
         <section>
-        <div className="justify-items-center">
-          <div>
-          {!showForm && (
-                <Button
-                  className="mt-4 justify-center"
-                  variant="default"
-                  onClick={() => {
-                    setEditingItem(null) 
-                    setShowForm(true) 
-                  }}
-                >
-                  Agregar Nuevo Producto
-                </Button>
-              )}
-          </div>
-        </div>
+          <h2 className="text-center text-2xl font-bold p-4">Inventario actual El crochet de Andrea</h2>
+          <InventoryTable 
+            items={items} 
+            onEdit={(item) => {
+              setEditingItem(item)
+              setShowForm(true)
+            }}
+            onDelete={deleteItem} 
+            onUpdateQuantity={updateQuantity}
+          />
+          <section>
+            <div className="justify-items-center">
+              <div>
+                {!showForm && (
+                  <Button
+                    className="mt-4 justify-center"
+                    variant="default"
+                    onClick={() => {
+                      setEditingItem(null) 
+                      setShowForm(true) 
+                    }}
+                  >
+                    Agregar Nuevo Producto
+                  </Button>
+                )}
+              </div>
+            </div>
             {showForm && (
               <div className="mt-4">
                 <h2 className="text-xl font-semibold mb-2">
@@ -186,23 +186,24 @@ export function Inventory({stock} : { stock : InventoryItem[] }) {
                   initialData={editingItem}
                 />
                 <div className="justify-items-center">
-                 <div>
-                  <Button
-                    className="mt-2"
-                    variant="outline"
-                    onClick={handleHideForm}
-                  >
-                    Cancelar
-                  </Button>
-                 </div>
+                  <div>
+                    <Button
+                      className="mt-2"
+                      variant="outline"
+                      onClick={handleHideForm}
+                    >
+                      Cancelar
+                    </Button>
+                  </div>
                 </div>
               </div>
             )}
+          </section>
+          <section className="mt-8">
+            <CategoryManagement />
+          </section>
+
         </section>
-        <section>
-            <CategoryManagement/>
-        </section>
-      </section>
       </main>
     </div>
   )
