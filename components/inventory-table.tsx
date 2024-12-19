@@ -1,11 +1,12 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { Button } from '@/components/ui/button'
 import { Input } from './ui/input'
-import { AlertCircle } from 'lucide-react'
+import { AlertCircle, Edit, Search, Trash2 } from 'lucide-react'
 import { useState } from 'react'
 import { Alert, AlertDescription, AlertTitle } from './ui/alert'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select'
 import { ExportData } from './export-data'
+import { Badge } from './ui/badge'
 
 
 
@@ -54,83 +55,95 @@ export function InventoryTable ({ items, onEdit, onDelete }: InventoryTableProps
   )
 
   return (
-    <div>
-    <div className="mb-4 flex space-x-2 justify-between">
-      <div className="mb-4 flex space-x-2">
-        <Input
-          placeholder="Buscar productos..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="max-w-sm"
-        />
+    <div className="space-y-6">
+      <div className="flex flex-wrap gap-4 items-center justify-between bg-white/50 p-4 rounded-lg shadow-sm">
+        <div className="flex flex-wrap gap-4 items-center">
+        <div className="relative">
+            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <Input
+              placeholder="Buscar productos..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="pl-10 w-full md:w-64 bg-white border-border focus:border-primary focus:ring focus:ring-primary/20"
+            />
+        </div>
         <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-          <SelectTrigger className="w-[180px]">
+          <SelectTrigger className="w-full md:w-48 bg-white border-border">
             <SelectValue placeholder="Filtrar por categoría" />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">Todas las categorías</SelectItem>
-            {uniqueCategories.map((category) => (
-            <SelectItem key={category} value={category}>{category}</SelectItem>
+              {uniqueCategories.map((category) => (
+              <SelectItem key={category} value={category}>{category}</SelectItem>
             ))}
           </SelectContent>
         </Select>
       </div>
       <ExportData products={items}/>
     </div>
-    <div className="p-8 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-zinc-800 dark:to-zinc-900 rounded-xl shadow-lg transition-colors duration-500">
+    <div className="bg-white/80 rounded-lg overflow-hidden shadow-sm">
     <Table>
       <TableHeader>
-        <TableRow>
-          <TableHead>Nombre</TableHead>
-          <TableHead>Cantidad</TableHead>
-          <TableHead>Precio</TableHead>
-          <TableHead>Categoria</TableHead>
-          <TableHead className="text-center">Acciones</TableHead>
+        <TableRow className="bg-card hover:bg-card/90">
+          <TableHead className="font-semibold">Nombre</TableHead>
+          <TableHead className="font-semibold">Cantidad</TableHead>
+          <TableHead className="font-semibold">Precio</TableHead>            <TableHead className="font-semibold">Categoría</TableHead>
+          <TableHead className="text-center font-semibold">Acciones</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
-        {filteredProducts.map(item => (
-          <TableRow key={item.xata_id} className="hover:bg-purple-100 dark:hover:bg-gray-700 transition-colors ">
-            <TableCell>{item.name}</TableCell>
-            <TableCell>{item.quantity}</TableCell>
-            <TableCell>${item.price.toFixed(2)}</TableCell>
-            <TableCell>{item.category}</TableCell>
-            <TableCell className="flex justify-evenly">
-              <div className="flex">
-              <Button variant="outline" size="sm" className="mr-2" onClick={() => onEdit(item)}>
-                Editar
-              </Button>
-              <Button variant="destructive" size="sm" onClick={() => handleDeleteClick(item)}>
-                Eliminar
-              </Button>
-              </div>
-            </TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
+            {filteredProducts.map((item, index) => (
+              <TableRow key={item.xata_id} className={index % 2 === 0 ? 'bg-white' : 'bg-card/20'}>
+                <TableCell className="font-medium">{item.name}</TableCell>
+                <TableCell>
+                <Badge variant={item.quantity > 10 ? 'default' : 'destructive'} className="bg-primary/10 text-black border-primary/20">
+                    {item.quantity}
+                  </Badge>
+                </TableCell>
+                <TableCell>${item.price.toFixed(2)}</TableCell>
+                <TableCell>
+                  <Badge variant="outline" className="bg-accent/10 text-accent border-accent/20">
+                    {item.category}
+                  </Badge>
+                </TableCell>
+                <TableCell className="text-center">
+                  <div className="flex justify-center space-x-2">
+                    <Button variant="outline" size="sm" onClick={() => onEdit(item)} 
+                      className="bg-primary/10 text-primary border-primary/20 hover:bg-primary/20">
+                      <Edit className="h-4 w-4 mr-1" />
+                      Editar
+                    </Button>
+                    <Button variant="outline" size="sm" onClick={() => handleDeleteClick(item)}
+                      className="bg-delete/10 text-delete border-delete/20 hover:bg-delete/20">
+                      <Trash2 className="h-4 w-4 mr-1" />
+                      Eliminar
+                    </Button>
+                  </div>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
     </Table>
     </div>
-     {itemToDelete && (
-      <Alert variant="destructive" className="mt-4">
-        <div className="flex h-24 justify-between items-center">
-          <AlertCircle className="h-8 w-8" />
-          <div className="text-center">
-            <AlertTitle>Confirmar eliminación</AlertTitle>
-            <AlertDescription>
-              ¿Estás seguro de que deseas eliminar <strong>{itemToDelete.name}</strong> del inventario?
-            </AlertDescription>
-          </div>
-          <div className="flex justify-end mt-4 space-x-2">
-            <Button variant="ghost" onClick={cancelDelete}>
+    {itemToDelete && (
+        <Alert variant="destructive" className="mt-6 bg-delete/10 border-delete/20 text-delete">
+          <AlertCircle className="h-5 w-5" />
+          <AlertTitle className="ml-2 text-lg font-semibold">Confirmar eliminación</AlertTitle>
+          <AlertDescription className="mt-2">
+            ¿Estás seguro de que deseas eliminar <strong>{itemToDelete.name}</strong> del inventario?
+          </AlertDescription>
+          <div className="mt-4 flex justify-end space-x-2">
+            <Button variant="outline" onClick={cancelDelete} 
+              className="bg-white text-muted border-border hover:bg-gray-50">
               Cancelar
             </Button>
-            <Button variant="destructive" onClick={confirmDelete}>
+            <Button variant="destructive" onClick={confirmDelete} 
+              className="bg-delete text-white hover:bg-delete/90">
               Eliminar
             </Button>
           </div>
-        </div>
-      </Alert>
-    )}
+        </Alert>
+      )}
     </div>
   )
 }

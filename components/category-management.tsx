@@ -93,13 +93,15 @@ export default function CategoryManagement() {
   }
 
   return (
-    <div className="space-y-4 w-full max-w-3xl mx-auto">
+    <div className="space-y-4 w-full max-w-3xl mx-auto bg-card/50 p-6 rounded-lg shadow-lg">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-semibold">Gestión de Categorías</h2>
+        <div className="flex items-center gap-2">
+          <h2 className="text-2xl font-semibold text-muted">Gestión de Categorías</h2>
+        </div>
         <Button 
           onClick={() => setShowContent(!showContent)}
           variant="outline"
-          className="flex items-center gap-2"
+          className="flex items-center gap-2 bg-primary/10 text-primary border-primary/20 hover:bg-primary/20"
         >
           {showContent ? (
             <>
@@ -123,7 +125,7 @@ export default function CategoryManagement() {
               placeholder="Nueva categoría"
               value={newCategory}
               onChange={(e) => setNewCategory(e.target.value)}
-              className="flex-grow"
+              className="flex-grow bg-white border-border"
             />
             <Button type="submit" className="flex items-center gap-2">
               <Plus className="h-4 w-4" />
@@ -131,10 +133,10 @@ export default function CategoryManagement() {
             </Button>
           </form>
           
-          <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-zinc-800 dark:to-zinc-900 rounded-xl shadow-lg transition-colors duration-500 overflow-hidden">
+          <div className="bg-white/80 rounded-xl shadow-sm overflow-hidden">
             <Table>
               <TableHeader>
-                <TableRow>
+                <TableRow className="bg-card/30 hover:bg-card/40">
                   <TableHead>Nombre</TableHead>
                   <TableHead className="text-right">Acciones</TableHead>
                 </TableRow>
@@ -148,6 +150,7 @@ export default function CategoryManagement() {
                         variant="destructive"
                         onClick={() => handleDeleteCategory(category.xata_id)}
                         size="sm"
+                        className="bg-delete/10 text-delete border-delete/20 hover:bg-delete/20"
                       >
                         Eliminar
                       </Button>

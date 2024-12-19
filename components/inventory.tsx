@@ -9,6 +9,7 @@ import { createProd, deleteProd, getCategories, updateProd } from '@/utils/activ
 
 import CategoryManagement from './category-management'
 import Header from './header'
+import { Heart } from 'lucide-react'
 
 
 type InventoryItem = {
@@ -137,72 +138,72 @@ export function Inventory({stock} : { stock : InventoryItem[] }) {
   
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <header>
+      <header  className="bg-card/50 border-b border-border/50">
         <Header/>  
       </header>
       <main className="container mx-auto p-4">
         <section>
-          <h2 className="text-center text-2xl font-bold p-4">Inventario actual El crochet de Andrea</h2>
-          <InventoryTable 
-            items={items} 
-            onEdit={(item) => {
-              setEditingItem(item)
-              setShowForm(true)
-            }}
-            onDelete={deleteItem} 
-            onUpdateQuantity={updateQuantity}
-          />
-          <section>
-            <div className="justify-items-center">
-              <div>
+        <div className="text-center py-8">
+            <h2 className="text-3xl font-bold text-muted mb-2">El crochet de Andrea</h2>
+            <p className="text-muted-foreground">Sistema de Gestión de Inventario</p>
+        </div>
+        <div className="grid gap-8">
+            <div className="bg-card/50 rounded-xl shadow-lg p-6">
+              <InventoryTable 
+                items={items} 
+                onEdit={(item) => {
+                  setEditingItem(item)
+                  setShowForm(true)
+                }}
+                onDelete={deleteItem} 
+                onUpdateQuantity={updateQuantity}
+              />
+              <div className="mt-6 flex justify-center">
                 {!showForm && (
                   <Button
-                    className="mt-4 justify-center"
-                    variant="default"
+                    className="bg-primary text-white hover:bg-primary/90 flex items-center gap-2"
                     onClick={() => {
                       setEditingItem(null) 
                       setShowForm(true) 
                     }}
                   >
+                    <Heart className="w-4 h-4" />
                     Agregar Nuevo Producto
                   </Button>
                 )}
               </div>
             </div>
-            {showForm && (
-              <div className="mt-4">
-                <h2 className="text-xl font-semibold mb-2">
-                  {editingItem ? 'Editar Producto' : 'Agregar Nuevo Producto'}
-                </h2>
-                <InventoryForm
-                  onSubmit={(item) => {
-                    if (editingItem) {
-                      updateItem({ ...item, xata_id: editingItem.xata_id })
-                    } else {
-                      addItem(item)
-                    }
-                    handleHideForm()
-                  }}
-                  initialData={editingItem}
-                />
-                <div className="justify-items-center">
-                  <div>
+              {showForm && (
+                <div className="mt-6 bg-white/50 rounded-lg p-6">
+                  <h2 className="text-xl font-semibold mb-4 text-center">
+                    {editingItem ? 'Editar Producto' : 'Agregar Nuevo Producto'}
+                  </h2>
+                  <InventoryForm
+                    onSubmit={(item) => {
+                      if (editingItem) {
+                        updateItem({ ...item, xata_id: editingItem.xata_id })
+                      } else {
+                        addItem(item)
+                      }
+                      handleHideForm()
+                    }}
+                    initialData={editingItem}
+                  />
+                  <div className="flex justify-center mt-4">
                     <Button
-                      className="mt-2"
                       variant="outline"
                       onClick={handleHideForm}
+                      className="border-accent text-accent hover:bg-accent hover:text-white"
                     >
                       Cancelar
                     </Button>
                   </div>
                 </div>
-              </div>
-            )}
-          </section>
+              )}
+            </div>
           <section className="mt-8">
             <CategoryManagement />
           </section>
-
         </section>
       </main>
     </div>

@@ -101,12 +101,12 @@ export function SalesTable({ items, onUpdateQuantity }: SalesTableProps) {
   }
 
   return (
-    <div className="my-16">
-      <h2 className="text-2xl my-4 text-center">Tabla de ventas</h2>
-      <div className="p-8 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-zinc-800 dark:to-zinc-900 rounded-xl shadow-lg transition-colors duration-500">
+    <div className="space-y-6 bg-card/50 p-6 rounded-lg shadow-lg">
+      <h2 className="text-2xl font-semibold text-center text-muted">Registro de Ventas</h2>
+      <div className="bg-white/80 rounded-xl shadow-sm overflow-hidden">
       <Table>
         <TableHeader>
-          <TableRow>
+          <TableRow className="bg-card/30 hover:bg-card/40">
             <TableHead>Nombre</TableHead>
             <TableHead>Stock Actual</TableHead>
             <TableHead>Cantidad a Vender</TableHead>
@@ -122,7 +122,7 @@ export function SalesTable({ items, onUpdateQuantity }: SalesTableProps) {
             const totalRevenue = salesItem?.totalSold ?? 0
             
             return (
-              <TableRow key={product.xata_id} className="hover:bg-purple-100 dark:hover:bg-gray-700 transition-colors ">
+              <TableRow key={product.xata_id}  className="hover:bg-card/10">
                 <TableCell>{product.name}</TableCell>
                 <TableCell>{product.quantity}</TableCell>
                 <TableCell>
@@ -132,7 +132,7 @@ export function SalesTable({ items, onUpdateQuantity }: SalesTableProps) {
                     max={product.quantity.toString()}
                     value={saleQuantities[product.xata_id] || ''}
                     onChange={(e) => handleInputChange(product.xata_id, e.target.value)}
-                    className="w-20"
+                    className="w-20 bg-white border-border"
                   />
                 </TableCell>
                 <TableCell className="text-center">{totalSales}</TableCell>
