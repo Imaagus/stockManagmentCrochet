@@ -137,8 +137,9 @@ export function InventoryTable ({ items, onEdit, onDelete }: InventoryTableProps
               className="bg-white text-muted border-border hover:bg-gray-50">
               Cancelar
             </Button>
-            <Button variant="destructive" onClick={confirmDelete} 
-              className="bg-delete text-white hover:bg-delete/90">
+            <Button variant="outline" size="sm" onClick={confirmDelete} 
+              className="bg-delete/10 text-delete border-delete/20 hover:bg-delete/20">
+                <Trash2 className="h-4 w-4 mr-1" />
               Eliminar
             </Button>
           </div>

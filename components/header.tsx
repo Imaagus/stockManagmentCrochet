@@ -1,13 +1,19 @@
 import Link from "next/link";
 import { ModeToggle } from "./mode-toggle";
 import { RibbonIcon as Yarn, Home, ShoppingBag } from 'lucide-react';
+import Image from "next/image";
 
 export default function Header() {
   return (
     <header className="w-full bg-card dark:bg-zinc-800 shadow-md">
       <div className="container mx-auto px-4 py-4 flex flex-col sm:flex-row justify-between items-center">
         <div className="flex items-center gap-3 mb-4 sm:mb-0">
-          <Yarn className="h-8 w-8 text-accent" />
+          <Image  
+          src= "/logo.png"
+          alt= "logo"
+          width={75}
+          height={75} 
+          />
           <div>
             <h1 className="text-2xl font-bold text-accent">El Crochet de Andrea</h1>
             <p className="text-sm text-muted-foreground">Sistema de Gestión de Inventario</p>

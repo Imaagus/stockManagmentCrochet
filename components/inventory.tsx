@@ -138,7 +138,7 @@ export function Inventory({stock} : { stock : InventoryItem[] }) {
   
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <header  className="bg-card/50 border-b border-border/50">
+      <header  className="bg-card/50">
         <Header/>  
       </header>
       <main className="container mx-auto p-4">
