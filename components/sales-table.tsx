@@ -68,20 +68,16 @@ export function SalesTable({ items, onUpdateQuantity }: SalesTableProps) {
     const saleQuantity = saleQuantities[product.xata_id]
     if (typeof saleQuantity === 'number' && saleQuantity > 0 && product.quantity >= saleQuantity) {
       try {
-        // Update sales count
         await updateProductSellCount(product.xata_id, saleQuantity)
-        // Update total sold amount
         await updateProductTotalSold(product.xata_id, saleQuantity, product.price)
-        // Update inventory quantity
         onUpdateQuantity(product.xata_id, product.quantity - saleQuantity)
-        // Clear input
         setSaleQuantities(prev => ({ ...prev, [product.xata_id]: '' }))
-        
+      
         toast({
           title: 'Venta registrada',
           description: `Se han vendido ${saleQuantity} unidades de ${product.name}.`,
         })
-        // Refresh data to show updated totals
+        
         fetchSalesData()
       } catch (error) {
         console.error('Error registering sale:', error)

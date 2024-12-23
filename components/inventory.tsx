@@ -201,9 +201,6 @@ export function Inventory({stock} : { stock : InventoryItem[] }) {
                 </div>
               )}
             </div>
-          <section className="mt-8">
-            <CategoryManagement />
-          </section>
         </section>
       </main>
     </div>

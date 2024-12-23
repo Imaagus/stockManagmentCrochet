@@ -1,6 +1,5 @@
 import Link from "next/link";
-import { ModeToggle } from "./mode-toggle";
-import { RibbonIcon as Yarn, Home, ShoppingBag } from 'lucide-react';
+import { RibbonIcon as Yarn, Home, ShoppingBag, Folder } from 'lucide-react';
 import Image from "next/image";
 
 export default function Header() {
@@ -28,7 +27,10 @@ export default function Header() {
             <ShoppingBag className="h-4 w-4" />
             <span>Ventas</span>
           </Link>
-          <ModeToggle />
+          <Link href="/categorys" className="flex items-center gap-2 text-muted-foreground hover:text-accent transition-colors">
+            <Folder className="h-4 w-4"/>
+            <span>Categorias</span>
+          </Link>
         </nav>
       </div>
     </header>
