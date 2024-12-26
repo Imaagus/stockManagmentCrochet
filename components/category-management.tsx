@@ -6,14 +6,16 @@ import { Input } from '@/components/ui/input'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { useToast } from '@/hooks/use-toast'
 import { getCategories, createCategory, deleteCategory } from '@/utils/activity'
-import { ChevronDown, ChevronUp, Plus } from 'lucide-react'
+import {  Plus } from 'lucide-react'
 import { Category } from '@/src/types/types'
+
 
 export default function CategoryManagement() {
   const { toast } = useToast()
   const [categories, setCategories] = useState<Category[]>([])
   const [newCategory, setNewCategory] = useState('')
-  const [showContent, setShowContent] = useState(false)
+
+
 
   useEffect(() => {
     fetchCategories()
@@ -89,31 +91,13 @@ export default function CategoryManagement() {
   }
 
   return (
-    <div className="space-y-4 w-full max-w-3xl mx-auto bg-card/50 p-6 rounded-lg shadow-lg">
+    <div className="space-y-4 w-full max-w-3xl mx-auto bg-card/50 p-6 rounded-lg shadow-lg mt-20">
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-2">
           <h2 className="text-2xl font-semibold text-muted">Gestión de Categorías</h2>
         </div>
-        <Button 
-          onClick={() => setShowContent(!showContent)}
-          variant="outline"
-          className="flex items-center gap-2 bg-primary/10 text-primary border-primary/20 hover:bg-primary/20"
-        >
-          {showContent ? (
-            <>
-              <ChevronUp className="h-4 w-4" />
-              Ocultar Categorías
-            </>
-          ) : (
-            <>
-              <ChevronDown className="h-4 w-4" />
-              Mostrar categorias
-            </>
-          )}
-        </Button>
       </div>
       
-      {showContent && (
         <div className="space-y-4">
           <form onSubmit={addCategory} className="flex gap-2">
             <Input
@@ -157,7 +141,7 @@ export default function CategoryManagement() {
             </Table>
           </div>
         </div>
-      )}
+    
     </div>
   )
 }
