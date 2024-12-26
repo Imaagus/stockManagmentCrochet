@@ -6,30 +6,17 @@ import { InventoryForm } from './inventory-form'
 import { Button } from '@/components/ui/button'
 import { useToast } from '@/hooks/use-toast'
 import { createProd, deleteProd, getCategories, updateProd } from '@/utils/activity'
-
-import CategoryManagement from './category-management'
+import { InventoryItem } from '@/src/types/types'
 import Header from './header'
 import { Heart } from 'lucide-react'
-
-
-type InventoryItem = {
-  xata_id: string
-  name: string
-  quantity: number
-  price: number
-  category: string
-  salesCount: number
-  totalSold: number
-}
 
 
 export function Inventory({stock} : { stock : InventoryItem[] }) {
   const [items, setItems] = useState<InventoryItem[]>(stock)
   const [editingItem, setEditingItem] = useState<InventoryItem | null>(null)
   const [showForm, setShowForm] = useState(false);
-
+  
   const { toast } = useToast()
-
   
   const handleHideForm = () => {
     setShowForm(false);

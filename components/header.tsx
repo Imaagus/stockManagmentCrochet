@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { RibbonIcon as Yarn, Home, ShoppingBag, Folder } from 'lucide-react';
+import { Home, ShoppingBag, Folder } from 'lucide-react';
 import Image from "next/image";
 
 export default function Header() {

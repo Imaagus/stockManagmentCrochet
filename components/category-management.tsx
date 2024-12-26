@@ -7,11 +7,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { useToast } from '@/hooks/use-toast'
 import { getCategories, createCategory, deleteCategory } from '@/utils/activity'
 import { ChevronDown, ChevronUp, Plus } from 'lucide-react'
-
-interface Category {
-  xata_id: string
-  name: string
-}
+import { Category } from '@/src/types/types'
 
 export default function CategoryManagement() {
   const { toast } = useToast()

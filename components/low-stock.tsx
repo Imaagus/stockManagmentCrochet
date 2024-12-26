@@ -2,10 +2,10 @@ import { useState, useEffect } from "react"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Button } from "@/components/ui/button"
 import { AlertCircle } from "lucide-react"
-import { Item } from "@/types"
+import { Product } from "@/src/types/types"
 
 interface LowStockAlertProps {
-  products: Item[]
+  products: Product[]
   threshold: number
 }
 
@@ -25,7 +25,6 @@ export function LowStockAlert({ products, threshold }: LowStockAlertProps) {
   }, [newLowStockProducts])
 
   const handleClose = () => {
-    // Añade los productos actuales a la lista de notificados y oculta la alerta
     setNotifiedProducts(prev => {
       const updated = new Set(prev)
       newLowStockProducts.forEach(product => updated.add(product.xata_id))

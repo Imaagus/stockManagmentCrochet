@@ -6,25 +6,8 @@ import { useToast } from '@/hooks/use-toast'
 import { Button } from './ui/button'
 import { Input } from './ui/input'
 import { updateProductSellCount, updateProductTotalSold , getSalesData} from '@/utils/activity'
+import { Product, SalesData } from '@/src/types/types'
 
-interface Product {
-  xata_id: string
-  name: string
-  quantity: number
-  price: number
-  category: string
-  salesCount: number
-  totalSold: number
-}
-
-
-type SalesData = {
-  xata_id: string
-  name: string
-  salesCount: number
-  price: number
-  totalSold: number
-}
 
 type SalesTableProps = {
   items: Product[]

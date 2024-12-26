@@ -7,18 +7,8 @@ import { Alert, AlertDescription, AlertTitle } from './ui/alert'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select'
 import { ExportData } from './export-data'
 import { Badge } from './ui/badge'
+import { InventoryItem } from '@/src/types/types'
 
-
-
-type InventoryItem = {
-  xata_id: string
-  name: string
-  quantity: number
-  price: number
-  category: string
-  salesCount: number
-  totalSold: number
-}
 
 type InventoryTableProps = {
   items: InventoryItem[]

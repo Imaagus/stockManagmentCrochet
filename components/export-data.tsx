@@ -2,15 +2,8 @@
 
 import { Button } from "@/components/ui/button"
 
-interface Product {
-    xata_id: string
-    name: string
-    quantity: number
-    price: number
-    category: string
-    salesCount: number
-    totalSold: number
-  }
+import { Product } from "@/src/types/types"
+
 interface ExportDataProps {
   products: Product[]
 }

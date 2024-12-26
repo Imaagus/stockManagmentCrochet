@@ -1,32 +1,22 @@
+'use client'
+
 import { Inventory } from "@/components/inventory"
-import {  getStock } from "@/utils/activity"
+import { useInventory } from "./inventoryContext"
+import { Spinner } from "@/components/ui/spinner"
 
-type InventoryItem = {
-  xata_id: string
-  name: string
-  quantity: number
-  price: number
-  category: string
-  salesCount: number
-  totalSold: number
-}
-export default async function InventoryPage() {
+export default function InventoryPage() {
+  const { items, isLoading } = useInventory()
 
-  const stockData  = await getStock();
-  
-  const stock: InventoryItem[] = stockData.map(item => ({
-    xata_id: item.xata_id,
-    name: item.name || '', 
-    quantity: item.quantity || 0,
-    price: item.price || 0,
-    category: item.category || '',
-    salesCount: item.salesCount || 0,
-    totalSold: item.totalSold || 0
-  }));
-
+  if (isLoading) {
     return (
+      <div className="fixed inset-0 flex items-center justify-center bg-background/50">
+        <Spinner size="lg" />
+      </div>
+    )
+  }
+  return (
     <div>
-      <Inventory stock={stock} />
+      <Inventory stock={items} />
     </div>
   )
 }

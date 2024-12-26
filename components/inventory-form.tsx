@@ -7,16 +7,7 @@ import { Label } from '@/components/ui/label'
 import { Select,SelectContent,SelectItem,SelectTrigger,SelectValue } from "@/components/ui/select"
 import { toast } from '@/hooks/use-toast'
 import { getCategories } from '@/utils/activity'
-
-type InventoryItem = {
-  xata_id: string
-  name: string
-  quantity: number
-  price: number
-  category: string
-  salesCount: number
-  totalSold: number
-}
+import { InventoryItem } from '@/src/types/types'
 
 type InventoryFormProps = {
   onSubmit: (item: Omit<InventoryItem , 'xata_id'>) => void
