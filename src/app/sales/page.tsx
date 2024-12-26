@@ -69,7 +69,7 @@ export default function SalesPage() {
   return (
     <div>
       <Header />
-      <div className="w-8/12 justify-self-center">
+      <div className="w-1/2 justify-self-center">
       <LowStockAlert products={items} threshold={3}/>
       <SalesTable items={items} onUpdateQuantity={updateQuantity}/>
       </div>
