@@ -6,6 +6,7 @@ import { SalesTable } from "@/components/sales-table"
 import { LowStockAlert } from "@/components/low-stock"
 import { useInventory } from "../inventoryContext"
 import { Spinner } from "@/components/ui/spinner"
+import { SalesDashboard } from "@/components/sales-chart"
 
 export default function SalesPage() {
   const { items, isLoading, updateQuantity, refreshInventory } = useInventory()
@@ -26,8 +27,11 @@ export default function SalesPage() {
     <div>
       <Header />
       <div>
-        <LowStockAlert products={items} threshold={3}/>
+        <LowStockAlert products={items} threshold={0}/>
         <SalesTable items={items} onUpdateQuantity={updateQuantity}/>
+        <div className="mb-8">
+        <SalesDashboard />
+        </div>
       </div>
     </div>
   )

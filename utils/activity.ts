@@ -115,3 +115,28 @@ export async function createProd(data: { name: string; quantity: number; price: 
       throw error
     }
   }
+
+  export async function getTotalSalesData(): Promise<Array<{ month: string; totalSales: number }>> {
+    const xata = getXataClient();
+    const now = new Date();
+    const oneYearAgo = new Date(now.getFullYear() - 1, now.getMonth(), now.getDate());
+  
+    const salesData = await xata.db.stockTable
+      .filter({ xata_createdat: { $ge: oneYearAgo } }) 
+      .select(["xata_createdat", "totalSold"]) 
+      .getAll();
+  
+    if (!salesData || salesData.length === 0) {
+      console.error("No sales data available.");
+      return [];
+    }
+    const monthlyData = salesData.reduce((acc: Record<string, number>, item) => {
+      const date = new Date(item.xata_createdat); 
+      const monthYear = `${date.getMonth() + 1}/${date.getFullYear()}`;
+      acc[monthYear] = (acc[monthYear] || 0) + (item.totalSold || 0);
+      return acc;
+    }, {});
+  
+    return Object.entries(monthlyData).map(([month, totalSales]) => ({ month, totalSales }));
+  }
+  
