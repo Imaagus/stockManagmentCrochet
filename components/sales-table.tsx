@@ -80,10 +80,10 @@ export function SalesTable({ items, onUpdateQuantity }: SalesTableProps) {
   }
 
   return (
-    <div className="space-y-6 bg-card/50 p-6 rounded-lg shadow-lg mt-20 ">
+    <div className="w-10/12 mx-auto space-y-6 bg-card/50 p-6 rounded-lg shadow-lg mt-20">
       <h2 className="text-2xl font-semibold text-center text-muted">Registro de Ventas</h2>
-      <div className="bg-white/80 rounded-xl shadow-sm overflow-hidden">
-      <Table>
+      <div className=" bg-white/80 rounded-xl shadow-sm overflow-hidden ">
+      <Table >
         <TableHeader>
           <TableRow className="bg-card/30 hover:bg-card/40">
             <TableHead>Nombre</TableHead>
