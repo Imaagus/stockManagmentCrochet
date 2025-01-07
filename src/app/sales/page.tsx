@@ -2,14 +2,13 @@
 
 import { useEffect } from "react"
 import Header from "@/components/header"
-import { SalesTable } from "@/components/sales-table"
 import { LowStockAlert } from "@/components/low-stock"
 import { useInventory } from "../inventoryContext"
 import { Spinner } from "@/components/ui/spinner"
-import { SalesDashboard } from "@/components/sales-chart"
+import Dashboard from "@/components/dashboard"
 
 export default function SalesPage() {
-  const { items, isLoading, updateQuantity, refreshInventory } = useInventory()
+  const { items, isLoading, refreshInventory } = useInventory()
 
   useEffect(() => {
     refreshInventory()
@@ -26,13 +25,9 @@ export default function SalesPage() {
   return (
     <div>
       <Header />
-      <div>
-        <LowStockAlert products={items} threshold={0}/>
-        <SalesTable items={items} onUpdateQuantity={updateQuantity}/>
-        <div className="mb-8">
-        <SalesDashboard />
-        </div>
-      </div>
+      <Dashboard />
+      <LowStockAlert products={items} threshold={0}/>
+
     </div>
   )
 }

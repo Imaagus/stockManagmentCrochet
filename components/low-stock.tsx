@@ -38,6 +38,7 @@ export function LowStockAlert({ products, threshold }: LowStockAlertProps) {
   }
 
   return (
+    <div className="w-1/2 m-auto">
     <Alert variant="destructive" className="mt-6 mb-6 flex">
       <AlertCircle className="h-4 w-4" />
       <div>
@@ -63,5 +64,6 @@ export function LowStockAlert({ products, threshold }: LowStockAlertProps) {
         </AlertDescription>
       </div>
     </Alert>
+    </div>
   )
 }

@@ -22,4 +22,12 @@ export interface Category {
     xata_id: string
     name: string
   }
+  export interface SalesRecord {
+    xata_id: string;
+    date: string;
+    productName: string;
+    quantity: number;
+    totalPrice: number;
+  }
+  
   

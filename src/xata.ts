@@ -68,6 +68,90 @@ const tables = [
     ],
   },
   {
+    name: "sales",
+    checkConstraints: {
+      sales_xata_id_length_xata_id: {
+        name: "sales_xata_id_length_xata_id",
+        columns: ["xata_id"],
+        definition: "CHECK ((length(xata_id) < 256))",
+      },
+    },
+    foreignKeys: {},
+    primaryKey: [],
+    uniqueConstraints: {
+      _pgroll_new_sales_xata_id_key: {
+        name: "_pgroll_new_sales_xata_id_key",
+        columns: ["xata_id"],
+      },
+    },
+    columns: [
+      {
+        name: "date",
+        type: "datetime",
+        notNull: false,
+        unique: false,
+        defaultValue: null,
+        comment: "",
+      },
+      {
+        name: "productName ",
+        type: "text",
+        notNull: false,
+        unique: false,
+        defaultValue: null,
+        comment: "",
+      },
+      {
+        name: "quantity ",
+        type: "int",
+        notNull: false,
+        unique: false,
+        defaultValue: null,
+        comment: "",
+      },
+      {
+        name: "totalPrice ",
+        type: "int",
+        notNull: false,
+        unique: false,
+        defaultValue: null,
+        comment: "",
+      },
+      {
+        name: "xata_createdat",
+        type: "datetime",
+        notNull: true,
+        unique: false,
+        defaultValue: "now()",
+        comment: "",
+      },
+      {
+        name: "xata_id",
+        type: "text",
+        notNull: true,
+        unique: true,
+        defaultValue: "('rec_'::text || (xata_private.xid())::text)",
+        comment: "",
+      },
+      {
+        name: "xata_updatedat",
+        type: "datetime",
+        notNull: true,
+        unique: false,
+        defaultValue: "now()",
+        comment: "",
+      },
+      {
+        name: "xata_version",
+        type: "int",
+        notNull: true,
+        unique: false,
+        defaultValue: "0",
+        comment: "",
+      },
+    ],
+  },
+  {
     name: "stockTable",
     checkConstraints: {
       stock_xata_id_length_xata_id: {
@@ -175,11 +259,15 @@ export type InferredTypes = SchemaInference<SchemaTables>;
 export type CategoryTable = InferredTypes["categoryTable"];
 export type CategoryTableRecord = CategoryTable & XataRecord;
 
+export type Sales = InferredTypes["sales"];
+export type SalesRecord = Sales & XataRecord;
+
 export type StockTable = InferredTypes["stockTable"];
 export type StockTableRecord = StockTable & XataRecord;
 
 export type DatabaseSchema = {
   categoryTable: CategoryTableRecord;
+  sales: SalesRecord;
   stockTable: StockTableRecord;
 };
 
@@ -188,7 +276,7 @@ const DatabaseClient = buildClient();
 const defaultOptions = {
   databaseURL:
     "https://Imanol-s-workspace-i3tp1f.us-east-1.xata.sh/db/stockCrochet",
-    apiKey: process.env.XATA_API_KEY, 
+    apiKey: process.env.XATA_API_KEY, // Clave API desde el entorno
     branch: "main",
 };
 

@@ -1,0 +1,24 @@
+{
+  "done": true,
+  "migration": {
+    "name": "mig_ctrb88j2vtkja3ivfl10",
+    "operations": [
+      {
+        "add_column": {
+          "table": "sales",
+          "column": {
+            "name": "productName ",
+            "type": "text",
+            "comment": "",
+            "nullable": true
+          }
+        }
+      }
+    ]
+  },
+  "migrationType": "pgroll",
+  "name": "mig_ctrb88j2vtkja3ivfl10",
+  "parent": "mig_ctrb82j2vtkja3ivfl00",
+  "schema": "public",
+  "startedAt": "2025-01-02T15:43:31.047392Z"
+}

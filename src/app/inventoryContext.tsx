@@ -7,10 +7,11 @@ import { InventoryItem } from '@/src/types/types'
 type InventoryContextType = {
   items: InventoryItem[]
   isLoading: boolean
-  updateQuantity: (xata_id: string, newQuantity: number) => Promise<void>
+  updateProduct: (xata_id: string, updatedFields: Partial<InventoryItem>) => Promise<void>
   refreshInventory: () => Promise<void>
   addProduct: (product: Omit<InventoryItem, 'xata_id'>) => Promise<void>
   removeProduct: (xata_id: string) => Promise<void>
+  lastUpdated: number
 }
 
 const InventoryContext = createContext<InventoryContextType | undefined>(undefined)
@@ -26,6 +27,7 @@ export const useInventory = () => {
 export const InventoryProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [items, setItems] = useState<InventoryItem[]>([])
   const [isLoading, setIsLoading] = useState(true)
+  const [lastUpdated, setLastUpdated] = useState(Date.now())
 
   const refreshInventory = useCallback(async () => {
     setIsLoading(true)
@@ -41,25 +43,29 @@ export const InventoryProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         totalSold: item.totalSold || 0,
       }))
       setItems(formattedStock)
+      setLastUpdated(Date.now())
     } catch (error) {
       console.error("Error al obtener el stock:", error)
+      throw error;
     } finally {
       setIsLoading(false)
     }
   }, [])
 
-  const updateQuantity = async (xata_id: string, newQuantity: number) => {
+  const updateProduct = async (xata_id: string, updatedFields: Partial<InventoryItem>) => {
     try {
-      await updateProd(xata_id, { quantity: Math.max(0, newQuantity) })
+      await updateProd(xata_id, updatedFields)
       setItems((prevItems) =>
         prevItems.map((item) =>
           item.xata_id === xata_id
-            ? { ...item, quantity: Math.max(0, newQuantity) }
+            ? { ...item, ...updatedFields }
             : item
         )
       )
+      setLastUpdated(Date.now())
     } catch (error) {
-      console.error("Error al actualizar la cantidad:", error)
+      console.error("Error al actualizar el producto:", error)
+      throw error;
     }
   }
 
@@ -67,8 +73,10 @@ export const InventoryProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     try {
       const newProduct = await createProd(product)
       setItems((prevItems) => [...prevItems, { ...product, xata_id: newProduct.xata_id }])
+      setLastUpdated(Date.now())
     } catch (error) {
       console.error("Error al agregar el producto:", error)
+      throw error;
     }
   }
 
@@ -76,26 +84,34 @@ export const InventoryProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     try {
       await deleteProd(xata_id)
       setItems((prevItems) => prevItems.filter((item) => item.xata_id !== xata_id))
+      setLastUpdated(Date.now())
     } catch (error) {
       console.error("Error al eliminar el producto:", error)
+      throw error;
     }
   }
 
   useEffect(() => {
-    refreshInventory()
+    refreshInventory().catch((error) => {
+      console.error("Error initial inventory load:", error)
+      setIsLoading(false)
+    })
   }, [refreshInventory])
 
   return (
     <InventoryContext.Provider value={{ 
       items, 
       isLoading, 
-      updateQuantity, 
+      updateProduct, 
       refreshInventory, 
       addProduct, 
-      removeProduct 
+      removeProduct,
+      lastUpdated
     }}>
       {children}
     </InventoryContext.Provider>
   )
 }
+
+
 

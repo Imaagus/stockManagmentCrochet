@@ -1,0 +1,24 @@
+{
+  "done": true,
+  "migration": {
+    "name": "mig_ctrb7db2vtkja3ivfku0",
+    "operations": [
+      {
+        "add_column": {
+          "table": "sales",
+          "column": {
+            "name": "date",
+            "type": "timestamptz",
+            "comment": "",
+            "nullable": true
+          }
+        }
+      }
+    ]
+  },
+  "migrationType": "pgroll",
+  "name": "mig_ctrb7db2vtkja3ivfku0",
+  "parent": "mig_ctrb7ab2vtkja3ivfkt0",
+  "schema": "public",
+  "startedAt": "2025-01-02T15:41:42.639166Z"
+}

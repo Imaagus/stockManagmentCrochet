@@ -1,0 +1,24 @@
+{
+  "done": true,
+  "migration": {
+    "name": "mig_ctrb7s32vtkja3ivfkv0",
+    "operations": [
+      {
+        "add_column": {
+          "table": "sales",
+          "column": {
+            "name": "quantity ",
+            "type": "int",
+            "comment": "",
+            "nullable": true
+          }
+        }
+      }
+    ]
+  },
+  "migrationType": "pgroll",
+  "name": "mig_ctrb7s32vtkja3ivfkv0",
+  "parent": "mig_ctrb7db2vtkja3ivfku0",
+  "schema": "public",
+  "startedAt": "2025-01-02T15:42:41.405908Z"
+}

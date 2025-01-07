@@ -1,0 +1,18 @@
+{
+  "done": true,
+  "migration": {
+    "name": "mig_ctrb76j2vtkja3ivfks0",
+    "operations": [
+      {
+        "drop_table": {
+          "name": "sales"
+        }
+      }
+    ]
+  },
+  "migrationType": "pgroll",
+  "name": "mig_ctrb76j2vtkja3ivfks0",
+  "parent": "mig_ctrb72j2vtkja3ivfkqg",
+  "schema": "public",
+  "startedAt": "2025-01-02T15:41:15.340651Z"
+}

@@ -1,60 +1,36 @@
 'use client'
 
-import { useCallback, useEffect, useState } from 'react'
+import { useState } from 'react'
 import { InventoryTable } from './inventory-table'
 import { InventoryForm } from './inventory-form'
 import { Button } from '@/components/ui/button'
 import { useToast } from '@/hooks/use-toast'
-import { createProd, deleteProd, getCategories, updateProd } from '@/utils/activity'
 import { InventoryItem } from '@/src/types/types'
 import Header from './header'
 import { Heart } from 'lucide-react'
+import { useInventory } from '@/src/app/inventoryContext'
 
-
-export function Inventory({stock} : { stock : InventoryItem[] }) {
-  const [items, setItems] = useState<InventoryItem[]>(stock)
+export function Inventory({ stock }: { stock: InventoryItem[] }) {
+  const { updateProduct, refreshInventory, addProduct, removeProduct } = useInventory();
   const [editingItem, setEditingItem] = useState<InventoryItem | null>(null)
   const [showForm, setShowForm] = useState(false);
   
   const { toast } = useToast()
-  
+
   const handleHideForm = () => {
     setShowForm(false);
     setEditingItem(null); 
   };
 
-  const fetchCategories = useCallback(async () => {
+  const handleAddItem = async (item: Omit<InventoryItem, 'xata_id'>) => {
     try {
-      const fetchedCategories = await getCategories();
-      fetchedCategories
-        .map((cat) => cat.name)
-        .filter((name): name is string => name != null);
-    } catch (error) {
-      console.error("Error fetching categories:", error);
-      toast({
-        title: "Error",
-        description: "No se pudieron cargar las categorías.",
-        variant: "destructive",
-      });
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchCategories();
-  }, [fetchCategories]);
-
-  const addItem = async (item: Omit<InventoryItem, 'xata_id'>) => {
-    try {
-      const newProduct = await createProd(item);
-      const newItem: InventoryItem = {
-        ...item,
-        xata_id: newProduct.xata_id,
-      };
-      setItems((prevItems) => [...prevItems, newItem]);
+      await addProduct(item);
+      await refreshInventory(); 
       toast({
         title: "Producto agregado",
-        description: `El producto ${newProduct.name} ha sido agregado al inventario.`,
+        description: `El producto ${item.name} ha sido agregado al inventario.`,
       });
+      handleHideForm();
     } catch (error) {
       console.error("Error al agregar producto:", error);
       toast({
@@ -65,85 +41,65 @@ export function Inventory({stock} : { stock : InventoryItem[] }) {
     }
   };
   
-  const updateItem = async (updatedItem: InventoryItem) => {
-    try{
-        await updateProd(updatedItem.xata_id, {
-        name: updatedItem.name,
-        quantity: updatedItem.quantity,
-        price: updatedItem.price,
-        category: updatedItem.category,
-      });
-
-      setItems((prevItems) =>
-        prevItems.map((item) =>
-          item.xata_id === updatedItem.xata_id ? { ...item, ...updatedItem } : item
-        )
-      );
+  const handleUpdateItem = async (updatedItem: InventoryItem) => {
+    try {
+      await updateProduct(updatedItem.xata_id, updatedItem);
+      await refreshInventory();
       toast({
         title: "Producto actualizado",
         description: `El producto ${updatedItem.name} ha sido modificado.`,
       });
       setEditingItem(null);
-    }catch{
-      console.log("error")
-    }
-  };
-  
-  const deleteItem = async (id: string) => {  
-    try{
-      await deleteProd(id)
-    }catch{
-      console.log("error")
-    }
-    setItems(items.filter(item => item.xata_id != id)); 
-    toast({
-      title: "Producto Eliminado",
-      description: "El producto ha sido eliminado",
-    });
-  };
-  
-  const updateQuantity = async (xata_id: string, newQuantity: number) => {
-    try {
-      await updateProd(xata_id, { quantity: Math.max(0, newQuantity) });
-      setItems((prevItems) =>
-        prevItems.map((item) =>
-          item.xata_id === xata_id
-            ? { ...item, quantity: Math.max(0, newQuantity) }
-            : item
-        )
-      );
+      handleHideForm();
     } catch (error) {
-      console.error("Error al actualizar la cantidad:", error);
+      console.error("Error al actualizar producto:", error);
       toast({
         title: "Error",
-        description: "No se pudo actualizar la cantidad. Intenta nuevamente.",
+        description: "No se pudo actualizar el producto. Intenta nuevamente.",
         variant: "destructive",
       });
     }
   };
   
-  
+  const handleDeleteItem = async (id: string) => {  
+    try {
+      await removeProduct(id);
+      await refreshInventory(); 
+      toast({
+        title: "Producto Eliminado",
+        description: "El producto ha sido eliminado",
+      });
+    } catch (error) {
+      console.error("Error al eliminar producto:", error);
+      toast({
+        title: "Error",
+        description: "No se pudo eliminar el producto. Intenta nuevamente.",
+        variant: "destructive",
+      });
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <header  className="bg-card/50">
+      <header className="bg-card/50">
         <Header/>  
       </header>
       <main className="container mx-auto p-4">
         <section>
-        <div className="text-center py-8">
+          <div className="text-center py-8">
             <h2 className="text-3xl font-bold text-muted mb-2">El crochet de Andrea</h2>
             <p className="text-muted-foreground">Sistema de Gestión de Inventario</p>
-        </div>
-        <div className="grid gap-8">
+          </div>
+          <div className="grid gap-8">
             <div className="bg-card/50 rounded-xl shadow-lg p-6">
               <InventoryTable 
-                items={items} 
+                items={stock} 
                 onEdit={(item) => {
                   setEditingItem(item)
                   setShowForm(true)
                 }}
-                onDelete={deleteItem} 
-                onUpdateQuantity={updateQuantity}
+                onDelete={handleDeleteItem} 
+                onUpdateQuantity={(xata_id, newQuantity) => updateProduct(xata_id, { quantity: newQuantity })}
               />
               <div className="mt-6 flex justify-center">
                 {!showForm && (
@@ -160,34 +116,33 @@ export function Inventory({stock} : { stock : InventoryItem[] }) {
                 )}
               </div>
             </div>
-              {showForm && (
-                <div className="mt-6 bg-white/50 rounded-lg p-6">
-                  <h2 className="text-xl font-semibold mb-4 text-center">
-                    {editingItem ? 'Editar Producto' : 'Agregar Nuevo Producto'}
-                  </h2>
-                  <InventoryForm
-                    onSubmit={(item) => {
-                      if (editingItem) {
-                        updateItem({ ...item, xata_id: editingItem.xata_id })
-                      } else {
-                        addItem(item)
-                      }
-                      handleHideForm()
-                    }}
-                    initialData={editingItem}
-                  />
-                  <div className="flex justify-center mt-4">
-                    <Button
-                      variant="outline"
-                      onClick={handleHideForm}
-                      className="border-accent text-accent hover:bg-accent hover:text-white"
-                    >
-                      Cancelar
-                    </Button>
-                  </div>
+            {showForm && (
+              <div className="mt-6 bg-white/50 rounded-lg p-6">
+                <h2 className="text-xl font-semibold mb-4 text-center">
+                  {editingItem ? 'Editar Producto' : 'Agregar Nuevo Producto'}
+                </h2>
+                <InventoryForm
+                  onSubmit={(item) => {
+                    if (editingItem) {
+                      handleUpdateItem({ ...item, xata_id: editingItem.xata_id })
+                    } else {
+                      handleAddItem(item)
+                    }
+                  }}
+                  initialData={editingItem}
+                />
+                <div className="flex justify-center mt-4">
+                  <Button
+                    variant="outline"
+                    onClick={handleHideForm}
+                    className="border-accent text-accent hover:bg-accent hover:text-white"
+                  >
+                    Cancelar
+                  </Button>
                 </div>
-              )}
-            </div>
+              </div>
+            )}
+          </div>
         </section>
       </main>
     </div>
